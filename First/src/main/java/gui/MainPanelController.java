@@ -1,22 +1,58 @@
 package gui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import utillities.ExceptionManager;
+import models.Memory;
+import utillities.BaseConverter;
+import utillities.JFXUtillities;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainPanelController implements Initializable {
 
+    //region FXML variables
+
+    //Constants
+    private final int CLIENT_RAM_SIZE = 4096;
+    private final int SUPERVISOR_RAM_SIZE = 256;
+
+    //Parent anchor pane
     @FXML
     private BorderPane RootPane;
+
+    //Child anchor panes
+    @FXML
+    private AnchorPane CPUPane;
+    @FXML
+    private AnchorPane CUPane;
+    @FXML
+    private AnchorPane VMPane;
+
+    //Ram table
+    private ObservableList<Memory> ramMemorylist = FXCollections.observableArrayList();
+    @FXML
+    private TableView<Memory> RamTableView;
+    @FXML
+    private TableColumn<Memory, String> RamAddressColumn;
+    @FXML
+    private TableColumn<Memory, String> RamValueColumn;
+
+
+    //Supervisor table
+    private ObservableList<Memory> supMemorylist = FXCollections.observableArrayList();
+    @FXML
+    private TableView<Memory> SupervisorTableView;
+    @FXML
+    private TableColumn<Memory, String> SupAddressColumn;
+    @FXML
+    private TableColumn<Memory, String> SupValueColumn;
 
     //Scroll bars
     @FXML
@@ -50,14 +86,79 @@ public class MainPanelController implements Initializable {
     @FXML
     private TextArea CommandTextBox;
 
-    //Child anchor panes
+    //VM size selection
     @FXML
-    private AnchorPane CPUPane;
-    @FXML
-    private AnchorPane CUPane;
+    private ComboBox<String> VMSizeComboBox;
 
+    //endregion
 
     public void initialize(URL location, ResourceBundle resources) {
-        ExceptionManager.showAlert("Test", "Testing alert class", Alert.AlertType.INFORMATION);
+        VMSizeComboBox.setItems(JFXUtillities.getVirtualMachineSizes());
+        InitTableColumns();
+        InitTableValues();
+        InitRegisters();
+    }
+
+    /**
+     * Sets map values to make columns editable
+     */
+    private void InitTableColumns() {
+        RamAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        RamValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+
+        SupAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        SupValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+    }
+
+    /**
+     * Initializes tables
+     */
+    private void InitTableValues() {
+        Thread clientRamThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+               for(int i = 0; i < CLIENT_RAM_SIZE; i++){
+                   ramMemorylist.add(new Memory(i,0));
+               }
+            }
+        });
+        clientRamThread.start();
+
+        Thread supervisorRamThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i < SUPERVISOR_RAM_SIZE; i++){
+                    supMemorylist.add(new Memory(i,0));
+                }
+            }
+        });
+        supervisorRamThread.start();
+
+        try {
+            clientRamThread.join();
+            supervisorRamThread.join();
+
+            RamTableView.getItems().setAll(ramMemorylist);
+            SupervisorTableView.getItems().setAll(supMemorylist);
+        } catch (InterruptedException e) {
+            JFXUtillities.showAlert("Initialization", "Table intialization failed", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Initializes the registers to starting values in hex
+     */
+    private void InitRegisters() {
+        ICregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
+        PRGregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
+        SPregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
+        HRGregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
+        ORGregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
+        IRGregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
+        SIregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
+        TIregister.setText(BaseConverter.convertValue(50, BaseConverter.Hexadecimal));
+        SMregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
+        MODEregister.setText("Client"); //Change me to a enum please
     }
 }

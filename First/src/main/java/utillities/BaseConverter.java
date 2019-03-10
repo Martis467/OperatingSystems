@@ -9,7 +9,7 @@ public enum BaseConverter {
     Decimal,
     Hexadecimal;
 
-    public String convertValue(int val, BaseConverter base)
+    public static String convertValue(int val, BaseConverter base)
     {
         switch (base){
             case Binary:

@@ -2,16 +2,23 @@ package gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import models.Memory;
 import utillities.BaseConverter;
+import utillities.JFXLoader;
 import utillities.JFXUtillities;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,7 +30,7 @@ public class MainPanelController implements Initializable {
     private final int CLIENT_RAM_SIZE = 4096;
     private final int SUPERVISOR_RAM_SIZE = 256;
 
-    //Parent anchor pane
+    //Parent border pane
     @FXML
     private BorderPane RootPane;
 
@@ -97,6 +104,25 @@ public class MainPanelController implements Initializable {
         InitTableColumns();
         InitTableValues();
         InitRegisters();
+    }
+
+
+    public void CreateNewVM(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = JFXLoader.getLoader("VM");
+            Stage stage = JFXLoader.loadWindow(loader, "Virtual computer");
+
+            VMController controller = loader.<VMController>getController();
+            controller.InitData();
+            stage.show();
+
+        } catch (IOException e) {
+            JFXUtillities.showAlert("VM creation", "Could not create new VM", Alert.AlertType.ERROR);
+        }
+    }
+
+    public void ResetRegisterValues(ActionEvent actionEvent) {
+
     }
 
     /**

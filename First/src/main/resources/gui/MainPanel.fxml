@@ -105,13 +105,13 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Button layoutX="188.0" layoutY="49.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="116.0" text="Create new virtual machine" wrapText="true" />
+                  <Button layoutX="188.0" layoutY="49.0" mnemonicParsing="false" onAction="#CreateNewVM" prefHeight="43.0" prefWidth="116.0" text="Create new virtual machine" wrapText="true" />
                   <ComboBox fx:id="VMSizeComboBox" layoutX="14.0" layoutY="58.0" prefWidth="150.0" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="CUPane" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Button layoutX="147.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="116.0" text="Reset regsiter values" wrapText="true" />
+                  <Button layoutX="147.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="116.0" onAction="#ResetRegisterValues" text="Reset regsiter values" wrapText="true" />
                   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="116.0" text="Connect hard drive" wrapText="true" />
                </children>
             </AnchorPane>

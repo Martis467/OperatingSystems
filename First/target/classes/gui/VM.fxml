@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="ParentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VMController">
+   <right>
+      <VBox prefHeight="511.0" prefWidth="218.0" BorderPane.alignment="CENTER">
+         <children>
+              <TableView fx:id="ClientMemoryTable" prefHeight="278.0" prefWidth="201.0">
+                  <columns>
+                      <TableColumn fx:id="AddressColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Address" />
+                      <TableColumn fx:id="ValueColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Value" />
+                  </columns>
+              </TableView>
+            <AnchorPane prefHeight="225.0" prefWidth="201.0">
+               <children>
+                  <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SP">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="109.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IC">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="SPregister" layoutX="44.0" layoutY="13.0" prefHeight="25.0" prefWidth="50.0" />
+                  <TextField fx:id="ICregister" layoutX="143.0" layoutY="12.0" prefHeight="25.0" prefWidth="50.0" />
+                  <Button layoutX="14.0" layoutY="66.0" mnemonicParsing="false" onAction="#DSreadAll" prefHeight="47.0" prefWidth="88.0" text="DS: Read all" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="115.0" layoutY="66.0" mnemonicParsing="false" onAction="#DSreadOne" prefHeight="47.0" prefWidth="90.0" text="DS: Read line" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="14.0" layoutY="133.0" mnemonicParsing="false" onAction="#CSreadAll" prefHeight="47.0" prefWidth="88.0" text="CS: Read all" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="116.0" layoutY="133.0" mnemonicParsing="false" onAction="#CSreadOne" prefHeight="47.0" prefWidth="88.0" text="CS: Read line" textAlignment="CENTER" wrapText="true" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </right>
+   <left>
+      <VBox prefHeight="511.0" prefWidth="177.0" BorderPane.alignment="TOP_CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Data segment" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TextArea fx:id="DataTextBox" prefHeight="222.0" prefWidth="172.0">
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </TextArea>
+            <Text layoutX="15.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code segment" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </Text>
+            <TextArea fx:id="CodeTextBox" prefHeight="244.0" prefWidth="172.0">
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </TextArea>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Machine code">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </Text>
+            <TextArea fx:id="MachineTextBox" prefHeight="494.0" prefWidth="255.0" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

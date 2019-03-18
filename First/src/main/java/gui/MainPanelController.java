@@ -6,14 +6,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import models.Memory;
+import models.RAM;
+import models.WordFX;
 import utillities.BaseConverter;
 import utillities.JFXLoader;
 import utillities.JFXUtillities;
@@ -43,23 +42,23 @@ public class MainPanelController implements Initializable {
     private AnchorPane VMPane;
 
     //Ram table
-    private ObservableList<Memory> ramMemorylist = FXCollections.observableArrayList();
+    private ObservableList<WordFX> ramMemorylist = FXCollections.observableArrayList();
     @FXML
-    private TableView<Memory> RamTableView;
+    private TableView<WordFX> RamTableView;
     @FXML
-    private TableColumn<Memory, String> RamAddressColumn;
+    private TableColumn<WordFX, String> RamAddressColumn;
     @FXML
-    private TableColumn<Memory, String> RamValueColumn;
+    private TableColumn<WordFX, String> RamValueColumn;
 
 
     //Supervisor table
-    private ObservableList<Memory> supMemorylist = FXCollections.observableArrayList();
+    private ObservableList<WordFX> supMemorylist = FXCollections.observableArrayList();
     @FXML
-    private TableView<Memory> SupervisorTableView;
+    private TableView<WordFX> SupervisorTableView;
     @FXML
-    private TableColumn<Memory, String> SupAddressColumn;
+    private TableColumn<WordFX, String> SupAddressColumn;
     @FXML
-    private TableColumn<Memory, String> SupValueColumn;
+    private TableColumn<WordFX, String> SupValueColumn;
 
     //Scroll bars
     @FXML
@@ -104,6 +103,7 @@ public class MainPanelController implements Initializable {
         InitTableColumns();
         InitTableValues();
         InitRegisters();
+
     }
 
 
@@ -122,6 +122,10 @@ public class MainPanelController implements Initializable {
     }
 
     public void ResetRegisterValues(ActionEvent actionEvent) {
+        RAM ram = new RAM();
+
+        ram.addValue(100, 501);
+        RAM.ramToJavaFx(ram, ramMemorylist);
 
     }
 
@@ -144,7 +148,7 @@ public class MainPanelController implements Initializable {
             @Override
             public void run() {
                for(int i = 0; i < CLIENT_RAM_SIZE; i++){
-                   ramMemorylist.add(new Memory(i,0));
+                   ramMemorylist.add(new WordFX(i,0));
                }
             }
         });
@@ -154,7 +158,7 @@ public class MainPanelController implements Initializable {
             @Override
             public void run() {
                 for(int i = 0; i < SUPERVISOR_RAM_SIZE; i++){
-                    supMemorylist.add(new Memory(i,0));
+                    supMemorylist.add(new WordFX(i,0));
                 }
             }
         });

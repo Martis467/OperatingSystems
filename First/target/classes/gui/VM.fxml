@@ -5,7 +5,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
@@ -16,32 +15,31 @@
    <right>
       <VBox prefHeight="511.0" prefWidth="218.0" BorderPane.alignment="CENTER">
          <children>
-              <TableView fx:id="ClientMemoryTable" prefHeight="278.0" prefWidth="201.0">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="RAM">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+            </Text>
+              <TableView fx:id="ClientMemoryTable" prefHeight="501.0" prefWidth="218.0">
                   <columns>
                       <TableColumn fx:id="AddressColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Address" />
                       <TableColumn fx:id="ValueColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Value" />
                   </columns>
               </TableView>
-            <AnchorPane prefHeight="225.0" prefWidth="201.0">
-               <children>
-                  <Text layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SP">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="109.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IC">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <TextField fx:id="SPregister" layoutX="44.0" layoutY="13.0" prefHeight="25.0" prefWidth="50.0" />
-                  <TextField fx:id="ICregister" layoutX="143.0" layoutY="12.0" prefHeight="25.0" prefWidth="50.0" />
-                  <Button layoutX="14.0" layoutY="66.0" mnemonicParsing="false" onAction="#DSreadAll" prefHeight="47.0" prefWidth="88.0" text="DS: Read all" textAlignment="CENTER" wrapText="true" />
-                  <Button layoutX="115.0" layoutY="66.0" mnemonicParsing="false" onAction="#DSreadOne" prefHeight="47.0" prefWidth="90.0" text="DS: Read line" textAlignment="CENTER" wrapText="true" />
-                  <Button layoutX="14.0" layoutY="133.0" mnemonicParsing="false" onAction="#CSreadAll" prefHeight="47.0" prefWidth="88.0" text="CS: Read all" textAlignment="CENTER" wrapText="true" />
-                  <Button layoutX="116.0" layoutY="133.0" mnemonicParsing="false" onAction="#CSreadOne" prefHeight="47.0" prefWidth="88.0" text="CS: Read line" textAlignment="CENTER" wrapText="true" />
-               </children>
-            </AnchorPane>
+            <Text layoutX="15.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HDD">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TableView fx:id="HardDriveTable" prefHeight="506.0" prefWidth="275.0">
+               <columns>
+                  <TableColumn fx:id="HardDriveAddressColumn" maxWidth="125.0" minWidth="100.0" prefWidth="108.0" text="Address" />
+                  <TableColumn fx:id="HardDriveValueColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Value" />
+               </columns>
+            </TableView>
          </children>
       </VBox>
    </right>
@@ -80,15 +78,23 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Machine code">
+            <Text layoutX="15.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monitor">
                <font>
-                  <Font size="18.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
-                  <Insets left="5.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
             </Text>
-            <TextArea fx:id="MachineTextBox" prefHeight="494.0" prefWidth="255.0" />
+            <TextArea fx:id="MonitorTextBox" prefHeight="347.0" prefWidth="275.0" />
+            <AnchorPane prefHeight="382.0" prefWidth="275.0">
+               <children>
+                  <Button layoutX="27.0" layoutY="14.0" mnemonicParsing="false" onAction="#DSreadAll" prefHeight="47.0" prefWidth="88.0" text="DS: Read all" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="139.0" layoutY="82.0" mnemonicParsing="false" onAction="#CSreadAll" prefHeight="47.0" prefWidth="88.0" text="CS: Read all" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="27.0" layoutY="82.0" mnemonicParsing="false" onAction="#CSreadOne" prefHeight="47.0" prefWidth="88.0" text="CS: Read line" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="138.0" layoutY="14.0" mnemonicParsing="false" onAction="#DSreadOne" prefHeight="47.0" prefWidth="90.0" text="DS: Read line" textAlignment="CENTER" wrapText="true" />
+               </children>
+            </AnchorPane>
          </children>
       </VBox>
    </center>

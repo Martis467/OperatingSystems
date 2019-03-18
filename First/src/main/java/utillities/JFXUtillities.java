@@ -5,9 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import models.VirtualMachineSize;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class JFXUtillities {
 
     /**

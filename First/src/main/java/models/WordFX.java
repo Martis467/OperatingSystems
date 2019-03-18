@@ -3,7 +3,7 @@ package models;
 import javafx.beans.property.SimpleStringProperty;
 import utillities.BaseConverter;
 
-public class Memory {
+public class WordFX {
 
     private SimpleStringProperty address;
     private SimpleStringProperty value;
@@ -13,7 +13,7 @@ public class Memory {
      * @param address
      * @param value
      */
-    public Memory(int address, int value) {
+    public WordFX(int address, int value) {
         this.address = new SimpleStringProperty(BaseConverter.convertValue(address, BaseConverter.Hexadecimal));
         this.value = new SimpleStringProperty(BaseConverter.convertValue(value, BaseConverter.Hexadecimal));
     }

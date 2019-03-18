@@ -28,6 +28,14 @@ public class VMController implements Initializable {
     @FXML
     private TableColumn ValueColumn;
 
+    //HDD table
+    @FXML
+    private TableView HardDriveTable;
+    @FXML
+    private TableColumn HardDriveAddressColumn;
+    @FXML
+    private TableColumn HardDriveValueColumn;
+
     //Registers
     @FXML
     private TextField SPregister;

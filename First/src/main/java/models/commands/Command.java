@@ -1,4 +1,4 @@
-package models;
+package models.commands;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -21,7 +21,7 @@ public enum Command {
     PUN("82", 4),
     PUS("83", 4),
 
-    //Controll
+    //Control
     JP("F0", 4),
     JE("F1", 4),
     JL("F2", 4),
@@ -36,7 +36,13 @@ public enum Command {
     READ("52", 4),
     RDH("20", 4),
     WRH("51", 4),
-    STARTIO("00", 4);
+    STARTIO("00", 4),
+
+    //Data loading
+    DW("DB", 4),
+    DN("DC", 4),
+    DD("DD", 4);
+
 
     private final String hexCode;
     private final int commandLength;
@@ -48,17 +54,15 @@ public enum Command {
     }
 
     /**
-     * Determines if the command is valid
+     * Gets a command by string or returns null
      * @param command
      * @return
      */
-    public boolean isValidCoomand(String command){
+    public Command getCommand(String command){
         if (command == null)
-            return false;
+            return null;
 
-        Command com = findCommand(command).orElse(null);
-
-        return com == null;
+        return findCommand(command).orElse(null);
     }
 
     private Optional<Command> findCommand(String command){

@@ -1,6 +1,7 @@
 package models;
 
 public class CPU {
+
     private static int IC;
     private static int PRG;
     private static int SP;

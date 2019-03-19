@@ -90,8 +90,8 @@
                   <TextField fx:id="SIregister" layoutX="260.0" layoutY="54.0" prefHeight="25.0" prefWidth="50.0" />
                   <TextField fx:id="TIregister" layoutX="260.0" layoutY="83.0" prefHeight="25.0" prefWidth="50.0" />
                   <TextField fx:id="SMregister" layoutX="260.0" layoutY="112.0" prefHeight="25.0" prefWidth="50.0" />
-                  <TextField fx:id="MODEregister" layoutX="220.0" layoutY="148.0" prefHeight="25.0" prefWidth="90.0" />
-                  <Text layoutX="168.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MODE">
+                  <TextField fx:id="MODEregister" layoutX="280.0" layoutY="148.0" prefHeight="25.0" prefWidth="30.0" />
+                  <Text layoutX="225.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MODE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -111,7 +111,7 @@
             </AnchorPane>
             <AnchorPane fx:id="CUPane" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Button layoutX="147.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="116.0" onAction="#ResetRegisterValues" text="Reset regsiter values" wrapText="true" />
+                  <Button layoutX="147.0" layoutY="14.0" mnemonicParsing="false" onAction="#ResetRegisterValues" prefHeight="43.0" prefWidth="116.0" text="Reset regsiter values" wrapText="true" />
                   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="116.0" text="Connect hard drive" wrapText="true" />
                </children>
             </AnchorPane>

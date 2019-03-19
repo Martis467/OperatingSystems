@@ -14,6 +14,7 @@ public class RAM {
      */
     public RAM(){
         memory = new HashMap<>(4096);
+
         for (int i = 0; i < memory.size(); i++){
             memory.put(i, 0);
         }

@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.RAM;
+import models.SupervizorMem;
 import models.WordFX;
 import utillities.BaseConverter;
 import utillities.JFXLoader;
@@ -174,6 +175,13 @@ public class MainPanelController implements Initializable {
             JFXUtillities.showAlert("Initialization", "Table intialization failed", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
+
+        /*
+        RAM ram = new RAM();
+        ram.addValue(10, 100);
+        ram.ramToJavaFx(ram, ramMemorylist);*/
+        SupervizorMem sp = new SupervizorMem();
+        sp.supMemToJavaFx(sp, supMemorylist);
     }
 
     /**

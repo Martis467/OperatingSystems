@@ -23,11 +23,24 @@ public class CPU {
        cpu.ORG(0);
        cpu.IRG(0);
        cpu.SI(0);
-       cpu.TI(0);
+       cpu.TI(50);
        cpu.SM(0);
        cpu.MODE(0);
 
        return cpu;
+    }
+
+    CPU() {
+        IC(0);
+        SP(0);
+        PRG(0);
+        HRG(0);
+        ORG(0);
+        IRG(0);
+        SI(0);
+        TI(50);
+        SM(0);
+        MODE(0);
     }
 
     //Getters and setters

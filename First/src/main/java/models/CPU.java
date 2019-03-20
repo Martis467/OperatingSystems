@@ -1,6 +1,11 @@
 package models;
 
+/**
+ * Singleton
+ */
 public class CPU {
+
+    private static CPU cpu;
 
     private static int IC;
     private static int PRG;
@@ -13,24 +18,10 @@ public class CPU {
     private static int SM;
     private static int MODE;
 
-    public static CPU initCPU()
-    {
-       CPU cpu = new CPU();
-       cpu.IC(0);
-       cpu.SP(0);
-       cpu.PRG(0);
-       cpu.HRG(0);
-       cpu.ORG(0);
-       cpu.IRG(0);
-       cpu.SI(0);
-       cpu.TI(50);
-       cpu.SM(0);
-       cpu.MODE(0);
-
-       return cpu;
-    }
-
-    CPU() {
+    /**
+     * Private constructor
+     */
+    private CPU() {
         IC(0);
         SP(0);
         PRG(0);
@@ -41,6 +32,13 @@ public class CPU {
         TI(50);
         SM(0);
         MODE(0);
+    }
+
+    public static CPU getInstance(){
+        if (cpu == null)
+            cpu = new CPU();
+
+        return cpu;
     }
 
     //Getters and setters

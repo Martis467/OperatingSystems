@@ -58,14 +58,14 @@ public enum Command {
      * @param command
      * @return
      */
-    public Command getCommand(String command){
+    public static Command getCommand(String command){
         if (command == null)
             return null;
 
         return findCommand(command).orElse(null);
     }
 
-    private Optional<Command> findCommand(String command){
+    private static Optional<Command> findCommand(String command){
         return Arrays.stream(values())
                 .filter(com -> com.toString().equals(command)).findFirst();
     }

@@ -11,7 +11,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import models.RAM;
 import models.SupervizorMem;
 import models.WordFX;
 import utillities.BaseConverter;
@@ -20,8 +19,6 @@ import utillities.JFXUtillities;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainPanelController implements Initializable {
@@ -198,6 +195,6 @@ public class MainPanelController implements Initializable {
         SIregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
         TIregister.setText(BaseConverter.convertValue(50, BaseConverter.Hexadecimal));
         SMregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
-        MODEregister.setText("Client"); //Change me to a enum please
+        MODEregister.setText("0"); //Change me to a enum please
     }
 }

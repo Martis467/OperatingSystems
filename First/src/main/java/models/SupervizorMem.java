@@ -15,7 +15,7 @@ public class SupervizorMem {
 
         memory = new HashMap<>(256); //nurodomas dydis supervizor mem
 
-        CPU cpu = new CPU();
+        CPU cpu = CPU.getInstance();
         memory.put(0, cpu.TI()); //gaunama ti reiksme ji cia bus modifukuojama
 
         for(int i = 1; i <= 16; i++) { //rodo ar aktyvi vm ar ne

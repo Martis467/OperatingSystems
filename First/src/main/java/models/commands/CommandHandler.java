@@ -1,14 +1,13 @@
 package models.commands;
 
+import javafx.collections.ObservableList;
 import models.CPU;
 import models.RAM;
+import models.WordFX;
 
 import java.util.ArrayList;
 
 public class CommandHandler {
-
-    private CPU cpu;
-    private RAM ram;
 
     private final ArrayList<Command> arithmeticCommands;
     private final ArrayList<Command> comparisonCommands;
@@ -17,10 +16,10 @@ public class CommandHandler {
     private final ArrayList<Command> IOCommands;
     private final ArrayList<Command> dataLoading;
 
-    public CommandHandler(CPU cpu, RAM ram){
+    private ObservableList<WordFX> vMemory;
 
-        this.cpu = cpu;
-        this.ram = ram;
+    public CommandHandler(ObservableList<WordFX> vMemory){
+        this.vMemory = vMemory;
 
         //Load all commands
         arithmeticCommands = new ArrayList<>();
@@ -66,10 +65,69 @@ public class CommandHandler {
      * Executes given command
      * @param command
      */
-    public void handleCommand(String command){
+    public void handleCommand(String command, ObservableList<WordFX> vMemory){
+        CPU cpu = CPU.getInstance();
+        Command parsedCommand = Command.getCommand(command);
+
+
+        if (command == null)
+            System.out.println("SI = 2 Interupt should happen");
 
         if (CPU.TI() == 0)
-            System.out.println("Interupt should happen");
+            System.out.println("SI = B Interupt should happen");
+
+
+        if (arithmeticCommands.contains(parsedCommand)){
+            handleArithmeticCommand(parsedCommand);
+            return;
+        }
+
+        if (comparisonCommands.contains(parsedCommand)){
+            handleComparisonCommand(parsedCommand);
+            return;
+        }
+
+        if (stackCommands.contains(parsedCommand)){
+            handleStackCommand(parsedCommand, command);
+            return;
+        }
+
+        if (controlCommands.contains(parsedCommand)){
+            handleControlCommand(parsedCommand, command);
+            return;
+        }
+
+        if (IOCommands.contains(parsedCommand)){
+            handleIOCommands(parsedCommand, command);
+            return;
+        }
+
+        if (dataLoading.contains(parsedCommand)){
+            handleDataLoading(parsedCommand, command);
+            return;
+        }
+    }
+
+    private void handleArithmeticCommand(Command parsedCommand) {
+
+    }
+
+    private void handleDataLoading(Command parsedCommand, String command) {
+
+    }
+
+    private void handleIOCommands(Command parsedCommand, String command) {
+
+    }
+
+    private void handleControlCommand(Command parsedCommand, String command) {
+
+    }
+
+    private void handleStackCommand(Command parsedCommand, String command) {
+    }
+
+    private void handleComparisonCommand(Command parsedCommand) {
 
     }
 

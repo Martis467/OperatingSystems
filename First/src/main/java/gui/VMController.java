@@ -62,6 +62,7 @@ public class VMController implements Initializable {
     CommandHandler commandHandler;
 
     private ObservableList<WordFX> virtualMemory = FXCollections.observableArrayList();
+    private ObservableList<WordFX> supervizorMemory = FXCollections.observableArrayList();
 
     private final String NEW_LINE_REGEX = "\\r?\\r";
 
@@ -72,20 +73,21 @@ public class VMController implements Initializable {
 
     }
 
-    public void InitData(List vMemory) {
+    public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory) {
 
         this.virtualMemory.addAll(vMemory);
         ClientMemoryTable.getItems().setAll(virtualMemory);
+        this.supervizorMemory = supervizorMemory;
     }
 
     public void DSreadAll(ActionEvent actionEvent) {
         String dataSegment = DataTextBox.getText();
         String[] commands = dataSegment.split(NEW_LINE_REGEX);
 
-        commandHandler = new CommandHandler(virtualMemory);
+        commandHandler = new CommandHandler(virtualMemory, supervizorMemory);
         for (String command :
                 commands) {
-            commandHandler.handleCommand(command, virtualMemory);
+            commandHandler.handleCommand(command);
         }
 
     }

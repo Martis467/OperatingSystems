@@ -11,7 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import models.SupervizorMem;
+import models.SupervizorMemory;
 import models.WordFX;
 import utillities.BaseConverter;
 import utillities.JFXLoader;
@@ -117,7 +117,7 @@ public class MainPanelController implements Initializable {
             int sublistFrom = Integer.valueOf("400", 16);
             int sublistTo = Integer.valueOf("7FF", 16);
 
-            controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo));
+            controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist);
             stage.show();
 
         } catch (IOException e) {
@@ -156,9 +156,7 @@ public class MainPanelController implements Initializable {
         Thread supervisorRamThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for(int i = 0; i < SUPERVISOR_RAM_SIZE; i++){
-                    supMemorylist.add(new WordFX(i,0));
-                }
+                SupervizorMemory.fillMemory(supMemorylist);
             }
         });
         supervisorRamThread.start();
@@ -178,8 +176,8 @@ public class MainPanelController implements Initializable {
         RAM ram = new RAM();
         ram.addValue(10, 100);
         ram.ramToJavaFx(ram, ramMemorylist);*/
-        SupervizorMem sp = new SupervizorMem();
-        sp.supMemToJavaFx(sp, supMemorylist);
+        //SupervizorMemory sp = new SupervizorMemory();
+       // sp.supMemToJavaFx(sp, supMemorylist);
     }
 
     /**

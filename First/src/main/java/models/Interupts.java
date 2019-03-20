@@ -1,23 +1,21 @@
 package models;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import java.util.HashMap;
 
 public class Interupts {
 
-    SupervizorMem supervizorMem;
+    SupervizorMemory supervizorMemory;
 
     Interupts() {
-        supervizorMem = new SupervizorMem();
+        supervizorMemory = new SupervizorMemory();
     }
 
     public void checkInterupt(HashMap<Integer,Integer> memory, CPU cpu) {
 
-        int interupt = supervizorMem.SVR(204); //sp 0 grazinamas ir tikrinama reiksme koks interuptas
+        int interupt = supervizorMemory.SVR(204); //sp 0 grazinamas ir tikrinama reiksme koks interuptas
 
-        supervizorMem.SVW( 255,cpu.SP() );
-        supervizorMem.SVW(254, cpu.IC());
+        supervizorMemory.SVW( 255,cpu.SP() );
+        supervizorMemory.SVW(254, cpu.IC());
 
         switch (interupt) {//cpu.SI()
 
@@ -59,8 +57,8 @@ public class Interupts {
                 break;
         }
 
-        cpu.SP( supervizorMem.SVR(255) );
-        cpu.IC( supervizorMem.SVR(254) );
+        cpu.SP( supervizorMemory.SVR(255) );
+        cpu.IC( supervizorMemory.SVR(254) );
     }
 
     public void PRTS() {
@@ -68,12 +66,12 @@ public class Interupts {
 
     }
 
-    private void Timer(CPU cpu, SupervizorMem supervizorMem) {
+    private void Timer(CPU cpu, SupervizorMemory supervizorMemory) {
 
         cpu.TI(50);
     }
 
-    private void BadOperationCode(CPU cpu, SupervizorMem supervizorMem) {
+    private void BadOperationCode(CPU cpu, SupervizorMemory supervizorMemory) {
 
 
     }

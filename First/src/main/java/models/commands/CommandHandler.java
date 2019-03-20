@@ -1,5 +1,6 @@
 package models.commands;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.CPU;
 import models.RAM;
@@ -17,9 +18,11 @@ public class CommandHandler {
     private final ArrayList<Command> dataLoading;
 
     private ObservableList<WordFX> vMemory;
+    private ObservableList<WordFX> supervizorMemory = FXCollections.observableArrayList();
 
-    public CommandHandler(ObservableList<WordFX> vMemory){
+    public CommandHandler(ObservableList<WordFX> vMemory, ObservableList<WordFX> supervisorMemory){
         this.vMemory = vMemory;
+        this.supervizorMemory = supervisorMemory;
 
         //Load all commands
         arithmeticCommands = new ArrayList<>();
@@ -65,7 +68,7 @@ public class CommandHandler {
      * Executes given command
      * @param command
      */
-    public void handleCommand(String command, ObservableList<WordFX> vMemory){
+    public void handleCommand(String command){
         CPU cpu = CPU.getInstance();
         Command parsedCommand = Command.getCommand(command);
 
@@ -73,7 +76,7 @@ public class CommandHandler {
         if (command == null)
             System.out.println("SI = 2 Interupt should happen");
 
-        if (CPU.TI() == 0)
+        if (cpu.TI() == 0)
             System.out.println("SI = B Interupt should happen");
 
 

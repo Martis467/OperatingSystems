@@ -46,7 +46,9 @@ public enum Command {
     //Interupt commands
     MOV("CA",4),
     SVW("CB", 4),
-    SVR("CC", 4);
+    SVR("CC", 4),
+    PUSH("CD", 4),
+    POP("CE", 4);
 
 
     private final String hexCode;

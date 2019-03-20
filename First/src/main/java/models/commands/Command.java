@@ -46,7 +46,9 @@ public enum Command {
     //Interupt commands
     MOV("CA",4),
     SVW("CB", 4),
-    SVR("CC", 4);
+    SVR("CC", 4),
+    PUSH("CD", 4),
+    POP("CE", 4);
 
 
     private final String hexCode;
@@ -63,14 +65,14 @@ public enum Command {
      * @param command
      * @return
      */
-    public Command getCommand(String command){
+    public static Command getCommand(String command){
         if (command == null)
             return null;
 
         return findCommand(command).orElse(null);
     }
 
-    private Optional<Command> findCommand(String command){
+    private static Optional<Command> findCommand(String command){
         return Arrays.stream(values())
                 .filter(com -> com.toString().equals(command)).findFirst();
     }

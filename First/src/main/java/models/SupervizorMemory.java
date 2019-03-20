@@ -1,22 +1,43 @@
 package models;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.commands.Command;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SupervizorMem {
+public class SupervizorMemory {
 
     private HashMap<Integer, Integer> memory;
+    private ObservableList<WordFX> supMemorylist = FXCollections.observableArrayList();
 
     CPU cpu;
 
-    public SupervizorMem(){
+    public static void fillMemory(ObservableList<WordFX> memory){
+        CPU cpu = CPU.getInstance();
+
+        //TI register value
+        memory.add(new WordFX(0, cpu.TI()));
+
+        //PRTN
+        memory.add(new WordFX(1, Command.PUSH.getCode() + cpu.SPnumber()));
+        memory.add(new WordFX(2, Command.PUSH.getCode() + cpu.ICnumber()));
+
+        //CPM
+        memory.add(new WordFX(3, Command.MOV.getCode() + cpu.SPnumber()));
+
+        memory.add(new WordFX(4, Command.POP.getCode() + cpu.ICnumber()));
+        memory.add(new WordFX(4, Command.POP.getCode() + cpu.SPnumber()));
+
+
+    }
+
+    public SupervizorMemory(){
 
         memory = new HashMap<>(256); //nurodomas dydis supervizor mem
 
-        CPU cpu = new CPU();
+        CPU cpu = CPU.getInstance();
         memory.put(0, cpu.TI()); //gaunama ti reiksme ji cia bus modifukuojama
 
         for(int i = 1; i <= 16; i++) { //rodo ar aktyvi vm ar ne
@@ -63,10 +84,10 @@ public class SupervizorMem {
         cpu.IC(0);
     }
 
-    public static void supMemToJavaFx(SupervizorMem supervizorMem, ObservableList<WordFX> supervizorMemFx) {
+    public static void supMemToJavaFx(SupervizorMemory supervizorMemory, ObservableList<WordFX> supervizorMemFx) {
 
         for (Map.Entry<Integer, Integer> entry:
-                supervizorMem.memory.entrySet()) {
+                supervizorMemory.memory.entrySet()) {
             supervizorMemFx.get(entry.getKey()).setValue(entry.getValue());
         }
     }

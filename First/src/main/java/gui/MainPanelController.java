@@ -20,6 +20,8 @@ import utillities.JFXUtillities;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainPanelController implements Initializable {
@@ -114,7 +116,11 @@ public class MainPanelController implements Initializable {
             Stage stage = JFXLoader.loadWindow(loader, "Virtual computer");
 
             VMController controller = loader.<VMController>getController();
-            controller.InitData();
+
+            int sublistFrom = Integer.valueOf("400", 16);
+            int sublistTo = Integer.valueOf("7FF", 16);
+
+            controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo));
             stage.show();
 
         } catch (IOException e) {
@@ -123,11 +129,6 @@ public class MainPanelController implements Initializable {
     }
 
     public void ResetRegisterValues(ActionEvent actionEvent) {
-        RAM ram = new RAM();
-
-        ram.addValue(100, 501);
-        RAM.ramToJavaFx(ram, ramMemorylist);
-
     }
 
     /**

@@ -2,7 +2,6 @@ package models;
 
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

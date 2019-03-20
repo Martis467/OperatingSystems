@@ -18,7 +18,7 @@ public class CommandHandler {
     private final ArrayList<Command> dataLoading;
 
     private ObservableList<WordFX> vMemory;
-    private ObservableList<WordFX> supervizorMemory = FXCollections.observableArrayList();
+    private ObservableList<WordFX> supervizorMemory;
 
     public CommandHandler(ObservableList<WordFX> vMemory, ObservableList<WordFX> supervisorMemory){
         this.vMemory = vMemory;
@@ -112,7 +112,21 @@ public class CommandHandler {
     }
 
     private void handleArithmeticCommand(Command parsedCommand) {
-
+        switch (parsedCommand){
+            case ADD:
+                ArithmeticCommand.Add(vMemory);
+                break;
+            case SUB:
+                ArithmeticCommand.Subtract(vMemory);
+                break;
+            case MUL:
+                ArithmeticCommand.Multiply(vMemory);
+            case DIV:
+                ArithmeticCommand.Divide(vMemory);
+                break;
+            case NOT:
+                ArithmeticCommand.Not(vMemory);
+        }
     }
 
     private void handleDataLoading(Command parsedCommand, String command) {

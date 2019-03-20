@@ -14,12 +14,12 @@ public enum BaseConverter {
         switch (base){
             case Binary:
                 String bin = Integer.toBinaryString(val);
-                return Strings.padStart(bin, 32, '0');
+                return Strings.padStart(bin, 32, '0').toUpperCase();
             case Hexadecimal:
                 String hex = Integer.toHexString(val);
-                return Strings.padStart(hex, 4, '0');
+                return Strings.padStart(hex, 4, '0').toUpperCase();
             default:
-                    return String.valueOf(val);
+                    return String.valueOf(val).toUpperCase();
         }
     }
 }

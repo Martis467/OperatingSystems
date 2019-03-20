@@ -25,8 +25,8 @@
             </Text>
               <TableView fx:id="ClientMemoryTable" prefHeight="501.0" prefWidth="218.0">
                   <columns>
-                      <TableColumn fx:id="AddressColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Address" />
-                      <TableColumn fx:id="ValueColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Value" />
+                      <TableColumn fx:id="ClientAddressColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Address" />
+                      <TableColumn fx:id="ClientValueColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Value" />
                   </columns>
               </TableView>
             <Text layoutX="15.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HDD">

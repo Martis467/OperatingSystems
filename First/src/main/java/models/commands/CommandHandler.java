@@ -66,10 +66,11 @@ public class CommandHandler {
      * Executes given command
      * @param command
      */
-    public void handleCommand(Command command){
+    public void handleCommand(String command){
 
         if (CPU.TI() == 0)
             System.out.println("Interupt should happen");
 
     }
+
 }

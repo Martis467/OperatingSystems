@@ -40,7 +40,7 @@ public class SupervizorMemory {
 
         //jei kanalas uzimtas ir jump padare ka reikia daryt?
 
-        
+
 
         memory.add(new WordFX(4, Command.POP.getCode() + cpu.ICnumber())); // is steko pop reikia
         memory.add(new WordFX(4, Command.POP.getCode() + cpu.SPnumber()));

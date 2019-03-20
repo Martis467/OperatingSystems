@@ -49,7 +49,6 @@ public enum Command {
     SVW("CB", 4),
     SVR("CC", 4),
     PUSH("CD", 4),
-    POP("CE", 4),
     TRNF("CF", 4 ),
     REGW("D0", 4);
 

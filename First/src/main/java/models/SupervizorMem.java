@@ -1,6 +1,7 @@
 package models;
 
 import javafx.collections.ObservableList;
+import models.commands.Command;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +24,21 @@ public class SupervizorMem {
         }
 
         for(int interupt = 1; interupt <= 11; interupt++) { //yra 11 timeriu //supervizorines atminties suskirstymas blogai apskaiciuotas doke!!!
-            for (int i = 17*interupt; i <= 17*interupt+16; i++){ //pertraukimo numeriai (gaunasi vienam pertraukimui 17 vietu skirta ne 16)
-                memory.put(i, interupt);
+            for (int i = 17*interupt; i <= 17*interupt+16; i++) {//pertraukimo numeriai (gaunasi vienam pertraukimui 17 vietu skirta ne 16)
+
+                if(interupt == 2) {
+
+                    // mov registrus resetint +
+                    //34 vietoj prasideda
+                    SVW(34, 16*16*Command.MOV.getDecimal()+1*16+0 );//mov 2b komand kod., reg, value
+
+
+                    interupt++;
+                }
+                else {
+                    memory.put(i, interupt);
+                }
+
             }
         }
 
@@ -42,6 +56,11 @@ public class SupervizorMem {
 
     public int SVR(int adress) { //is adreso x grazinama reiksme
         return memory.get(adress);
+    }
+
+    private void MOV(CPU cpu ) { // sukurti funkcija kur reikiama reiksme ideda i reg. kaip nurodyti registra???//2 vyr. bait komandos kodas, 3 reg, 4 value
+        cpu.SP(0);
+        cpu.IC(0);
     }
 
     public static void supMemToJavaFx(SupervizorMem supervizorMem, ObservableList<WordFX> supervizorMemFx) {

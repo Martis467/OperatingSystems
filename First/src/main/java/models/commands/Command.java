@@ -41,7 +41,12 @@ public enum Command {
     //Data loading
     DW("DB", 4),
     DN("DC", 4),
-    DD("DD", 4);
+    DD("DD", 4),
+
+    //Interupt commands
+    MOV("CA",4),
+    SVW("CB", 4),
+    SVR("CC", 4);
 
 
     private final String hexCode;
@@ -68,6 +73,14 @@ public enum Command {
     private static Optional<Command> findCommand(String command){
         return Arrays.stream(values())
                 .filter(com -> com.toString().equals(command)).findFirst();
+    }
+
+    public String getCode() {
+        return hexCode;
+    }
+
+    public int getDecimal() {
+        return Integer.valueOf(hexCode, 16);
     }
 
 }

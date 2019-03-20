@@ -20,6 +20,7 @@ public enum Command {
     PT("81", 4),
     PUN("82", 4),
     PUS("83", 4),
+    POP("84", 4),
 
     //Control
     JP("F0", 4),
@@ -48,7 +49,9 @@ public enum Command {
     SVW("CB", 4),
     SVR("CC", 4),
     PUSH("CD", 4),
-    POP("CE", 4);
+    POP("CE", 4),
+    TRNF("CF", 4 ),
+    REGW("D0", 4);
 
 
     private final String hexCode;

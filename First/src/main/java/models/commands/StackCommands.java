@@ -8,7 +8,7 @@ import models.WordFX;
 
 public class StackCommands {
 
-    public void LD(int x, int y, CPU cpu, ObservableList<WordFX> memory) { //į steko viršūnę užkrauna reikšmę iš duomenų srities adresu 16 *x + y.  SP--; 0 < x,y < 16
+    public static void LD(int x, int y, CPU cpu, ObservableList<WordFX> memory) { //į steko viršūnę užkrauna reikšmę iš duomenų srities adresu 16 *x + y.  SP--; 0 < x,y < 16
         int sp = cpu.SP()-1;
         cpu.SP(sp);
         WordFX temp = memory.get(16*x+y);
@@ -17,7 +17,7 @@ public class StackCommands {
 
     }
 
-    public void PTxy(int x, int y, CPU cpu, ObservableList<WordFX> memory) { //steko viršūnėje esantį žodį deda į duomenų sritį nurodytu adresu SP++; 16 * x + y. 0 < x,y < 0xF
+    public static void PTxy(int x, int y, CPU cpu, ObservableList<WordFX> memory) { //steko viršūnėje esantį žodį deda į duomenų sritį nurodytu adresu SP++; 16 * x + y. 0 < x,y < 0xF
         WordFX temp = memory.get(cpu.SP());
         memory.set(16*x+y, temp);
         int sp = cpu.SP()-1;
@@ -25,7 +25,7 @@ public class StackCommands {
 
     }
 
-    public void PUN(CPU cpu, int value, ObservableList<WordFX> memory) { //– x kaip skaičių patalpina į steko viršūnę. SP++;[SP] = x.
+    public static void PUN(CPU cpu, int value, ObservableList<WordFX> memory) { //– x kaip skaičių patalpina į steko viršūnę. SP++;[SP] = x.
         int sp = cpu.SP()-1; //sumazinu sp kad rodytu i nauja tuscia langeli
         cpu.SP(sp);
         String tmp = String.valueOf(value);//value i string
@@ -35,7 +35,7 @@ public class StackCommands {
     }
 
     // !!!!!!!!!!! cia nezinau kaip tai tiesiog string ikeliau
-    public void PUS(CPU cpu, String value, ObservableList<WordFX> memory) { //– x kaip simbolį patalpina į steko viršūnę. sp++;[SP] = x
+    public static void PUS(CPU cpu, String value, ObservableList<WordFX> memory) { //– x kaip simbolį patalpina į steko viršūnę. sp++;[SP] = x
         int sp = cpu.SP()-1;
         cpu.SP(sp);
 
@@ -45,7 +45,7 @@ public class StackCommands {
 
     }
 
-    public void POP(CPU cpu) { //ismeta stacko virsuneje esancia reiksme
+    public static void POP(CPU cpu) { //ismeta stacko virsuneje esancia reiksme
         int temp = cpu.SP();
         temp++;
         if( temp > 4096 ) {

@@ -1,5 +1,7 @@
 package models;
 
+import utillities.BaseConverter;
+
 /**
  * Singleton
  */
@@ -44,14 +46,17 @@ public class CPU {
     //Getters and setters
     public static int   IC() {return IC;}
     public static void  IC(int val) {IC = val;}
+    public static void  ICHex(String val) {IC = BaseConverter.converToDecimal(val, BaseConverter.Hexadecimal);}
     public static String ICnumber() {return "1";}
 
     public static int   PRG() {return PRG;}
     public static void  PRG(int val) {PRG = val;}
+    public static void  PRGHex(String val) {PRG = BaseConverter.converToDecimal(val, BaseConverter.Hexadecimal);}
     public static String PRGnumber() {return "2";}
 
     public static int   SP() {return SP;}
     public static void  SP(int val) {SP = val;}
+    public static void  SPHex(String val) {SP = BaseConverter.converToDecimal(val, BaseConverter.Hexadecimal);}
     public static String SPnumber() {return "3";}
 
     public static int   HRG() {return HRG;}
@@ -68,14 +73,17 @@ public class CPU {
 
     public static int   SI() {return SI;}
     public static void  SI(int val) {SI = val;}
+    public static void  SIHex(String val) {SI = BaseConverter.converToDecimal(val, BaseConverter.Hexadecimal);}
     public static String SInumber() {return "7";}
 
     public static int   TI() {return TI;}
     public static void  TI(int val) {TI = val;}
+    public static void  TIHex(String val) {TI = BaseConverter.converToDecimal(val, BaseConverter.Hexadecimal);}
     public static String TInumber() {return "8";}
 
     public static int   SM() {return SM;}
     public static void  SM(int val) {SM = val;}
+    public static void  SMHex(String val) {SM = BaseConverter.converToDecimal(val, BaseConverter.Hexadecimal);}
     public static String SMnumber() {return "9";}
 
     public static int   MODE() {return MODE;}

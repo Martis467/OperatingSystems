@@ -116,10 +116,14 @@ public class MainPanelController implements Initializable {
             VMController controller = loader.<VMController>getController();
 
             int sublistFrom = Integer.valueOf("400", 16);
-            int sublistTo = Integer.valueOf("7FF", 16);
+            int sublistTo = Integer.valueOf("4FF", 16);
 
             CPU cpu = CPU.getInstance();
-            cpu.PRG(400);
+            cpu.PRG(sublistFrom);
+
+            //Update register values
+            InitRegisters();
+
             controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist, 256);
             stage.show();
 

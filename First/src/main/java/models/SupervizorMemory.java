@@ -15,19 +15,34 @@ public class SupervizorMemory {
     CPU cpu;
 
     public static void fillMemory(ObservableList<WordFX> memory){
+
         CPU cpu = CPU.getInstance();
 
         //TI register value
         memory.add(new WordFX(0, cpu.TI()));
 
         //PRTN
-        memory.add(new WordFX(1, Command.PUSH.getCode() + cpu.SPnumber()));
+        memory.add(new WordFX(1, Command.PUSH.getCode() + cpu.SPnumber())); //cia i steka reikia push
         memory.add(new WordFX(2, Command.PUSH.getCode() + cpu.ICnumber()));
 
-        //CPM
-        memory.add(new WordFX(3, Command.MOV.getCode() + cpu.SPnumber()));
+        memory.add(new WordFX(3, Command.MOV.getCode() + cpu.MODEnumber() + 0)); //pakeicia mode i supervizoriaus (0)
+        memory.add(new WordFX(4, Command.TRNF.getCode() )); //i supervizor steko virsu ikelia is ram steko virsaus value
+        memory.add(new WordFX(5, Command.REGW.getCode())); //i stacko virsu ikelia org reiksme
+        memory.add(new WordFX(6, Command.PUN.getCode() + 1)); //i steko virsu patalpina 1
+        memory.add(new WordFX(7, Command.CMP.getCode())); //compare 0 ir org
 
-        memory.add(new WordFX(4, Command.POP.getCode() + cpu.ICnumber()));
+        memory.add(new WordFX(8, Command.JE.getCode())); // jei nelygus(ORG = 1) soka i adresa x ir y(uzimtas ORG) nurodyti x ir y bet cia veliau kai uzpildysim lentele!!!!!!!
+
+        memory.add(new WordFX(9, Command.POP.getCode())); //ismeta cmp reiksme
+        memory.add(new WordFX(10, Command.POP.getCode())); //ismeta 0 reiksme
+        memory.add(new WordFX(11, Command.POP.getCode())); //ismeta ORG reiksme //steke liko tik reiksme paimta is ram steko virsaus
+        memory.add(new WordFX(12, Command.PRTS.getCode())); //jei laisvas tai atprintina i ekrana stacko virsu
+
+        //jei kanalas uzimtas ir jump padare ka reikia daryt?
+
+
+
+        memory.add(new WordFX(4, Command.POP.getCode() + cpu.ICnumber())); // is steko pop reikia
         memory.add(new WordFX(4, Command.POP.getCode() + cpu.SPnumber()));
 
 

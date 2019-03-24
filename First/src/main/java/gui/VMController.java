@@ -11,8 +11,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import models.CPU;
 import models.WordFX;
-import models.commands.Command;
 import models.commands.CommandHandler;
 
 import java.net.URL;
@@ -61,7 +61,8 @@ public class VMController implements Initializable {
 
     CommandHandler commandHandler;
 
-    private ObservableList<WordFX> virtualMemory = FXCollections.observableArrayList();
+    private ObservableList<WordFX> realMemory = FXCollections.observableArrayList();
+    private ObservableList<WordFX> clientMemory = FXCollections.observableArrayList();
     private ObservableList<WordFX> supervizorMemory = FXCollections.observableArrayList();
 
     private final String NEW_LINE_REGEX = "\\r?\\r";
@@ -73,10 +74,18 @@ public class VMController implements Initializable {
 
     }
 
-    public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory) {
+    public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory, int vmSize) {
 
-        this.virtualMemory.addAll(vMemory);
-        ClientMemoryTable.getItems().setAll(virtualMemory);
+        CPU cpu = CPU.getInstance();
+        //Match real memory
+        this.realMemory.addAll(vMemory);
+        InitClientMemory();
+
+        //Add size to the right the place
+        clientMemory.get(0).setValue(vmSize);
+        realMemory.get(0).setValue(vmSize);
+
+        ClientMemoryTable.getItems().setAll(clientMemory);
         this.supervizorMemory = supervizorMemory;
     }
 
@@ -84,7 +93,7 @@ public class VMController implements Initializable {
         String dataSegment = DataTextBox.getText();
         String[] commands = dataSegment.split(NEW_LINE_REGEX);
 
-        commandHandler = new CommandHandler(virtualMemory, supervizorMemory);
+        commandHandler = new CommandHandler(realMemory, supervizorMemory);
         for (String command :
                 commands) {
             commandHandler.handleCommand(command);
@@ -102,6 +111,13 @@ public class VMController implements Initializable {
 
     public void CSreadOne(ActionEvent actionEvent) {
 
+    }
+
+    private void InitClientMemory() {
+
+        for (int i = 1; i < realMemory.size(); i++){
+            clientMemory.add(new WordFX(i, 0));
+        }
     }
 
     private void InitColumns() {

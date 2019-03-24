@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import models.CPU;
 import models.SupervizorMemory;
 import models.WordFX;
 import utillities.BaseConverter;
@@ -117,7 +118,9 @@ public class MainPanelController implements Initializable {
             int sublistFrom = Integer.valueOf("400", 16);
             int sublistTo = Integer.valueOf("7FF", 16);
 
-            controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist);
+            CPU cpu = CPU.getInstance();
+            cpu.PRG(400);
+            controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist, 256);
             stage.show();
 
         } catch (IOException e) {

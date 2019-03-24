@@ -21,10 +21,10 @@ public class ComparisonCommand {
         int value1 = memory.get(SP).getValueInt();
 
         //Get second value
-        int value2 = memory.get(SP-1).getValueInt();
+        int value2 = memory.get(SP+1).getValueInt();
 
-        //Increase SP
-        cpu.SP(SP + 1);
+        //Decrease SP
+        cpu.SP(SP - 1);
 
         /*
          * Compare, increase SP value and add the result to [SP-1]:
@@ -39,7 +39,6 @@ public class ComparisonCommand {
         if( value2 < value1) result = 2;
 
         //increase SP and put the new value
-        cpu.SP(SP + 1);
-        memory.get(SP + 1).setValue(result);
+        memory.get(SP - 1).setValue(result);
     }
 }

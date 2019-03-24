@@ -15,6 +15,7 @@ import models.CPU;
 import models.WordFX;
 import models.commands.CommandHandler;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -98,10 +99,18 @@ public class VMController implements Initializable {
                 commands) {
             commandHandler.handleCommand(command);
         }
-
+        DataTextBox.setText("");
     }
 
     public void DSreadOne(ActionEvent actionEvent) {
+        String dataSegment = DataTextBox.getText();
+        int newLineIndex = dataSegment.indexOf(NEW_LINE_REGEX);
+        String singleCommand = dataSegment.substring(0, newLineIndex);
+
+        commandHandler = new CommandHandler(realMemory, supervizorMemory);
+        commandHandler.handleCommand(singleCommand);
+
+        DataTextBox.setText(dataSegment.substring(newLineIndex));
 
     }
 

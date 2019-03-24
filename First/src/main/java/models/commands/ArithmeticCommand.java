@@ -2,6 +2,7 @@ package models.commands;
 
 import javafx.collections.ObservableList;
 import models.CPU;
+import models.Interrupt;
 import models.WordFX;
 
 public class ArithmeticCommand {
@@ -50,15 +51,14 @@ public class ArithmeticCommand {
         int SP = cpu.SP();
 
         //If our stack has only one variable or none, we do nothing
-        if (SP <= memory.size() - 32)
+        if (SP >= memory.size())
             return;
-        
+
         //Get [SP] value and set head to zero
         int value1 = memory.get(SP).getValueInt();
-        memory.get(SP).setValue(0);
 
-        //Get [SP-1] value
-        int value2 = memory.get(SP-1).getValueInt();
+        //Get [SP+1] value
+        int value2 = memory.get(SP+1).getValueInt();
 
         //Check if the divisor is not 0 if it is cause interruption
         if(operation == Operation.DIV && value1 == 0){
@@ -72,20 +72,19 @@ public class ArithmeticCommand {
         switch (operation){
             case ADD:
                 //put the sum to stack
-                memory.get(SP - 1).setValue(value2+value1);
+                memory.get(SP).setValue(value1+value2);
                 break;
             case SUB:
                 //put the difference to stack
-                cpu.SP(SP - 1);
-                memory.get(SP - 1).setValue(value2-value1);
+                memory.get(SP).setValue(value1-value2);
                 break;
             case MUL:
                 //put the product to stack
-                memory.get(SP - 1).setValue(value2*value1);
+                memory.get(SP).setValue(value1*value2);
                 break;
             case DIV:
                 //put the quotient to stack
-                memory.get(SP - 1).setValue(value2/value1);
+                memory.get(SP).setValue(value1/value2);
                 break;
             default:
                     break;

@@ -1,4 +1,4 @@
-package models.commands;
+package models;
 
 public enum Interrupt {
     ForbiddenMemoryAccess(1),

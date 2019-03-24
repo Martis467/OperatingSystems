@@ -66,8 +66,6 @@ public class VMController implements Initializable {
     private ObservableList<WordFX> clientMemory = FXCollections.observableArrayList();
     private ObservableList<WordFX> supervizorMemory = FXCollections.observableArrayList();
 
-    private final String NEW_LINE_REGEX = "\\r?\\r";
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -91,8 +89,8 @@ public class VMController implements Initializable {
     }
 
     public void DSreadAll(ActionEvent actionEvent) {
-        String dataSegment = DataTextBox.getText();
-        String[] commands = dataSegment.split(NEW_LINE_REGEX);
+        String dataSegment = getDataSegment();
+        String[] commands = dataSegment.split("\n");
 
         commandHandler = new CommandHandler(realMemory, supervizorMemory);
         for (String command :
@@ -103,8 +101,10 @@ public class VMController implements Initializable {
     }
 
     public void DSreadOne(ActionEvent actionEvent) {
-        String dataSegment = DataTextBox.getText();
-        int newLineIndex = dataSegment.indexOf(NEW_LINE_REGEX);
+        String dataSegment = getDataSegment();
+
+        //Get new line index and handle command
+        int newLineIndex = dataSegment.indexOf("\n");
         String singleCommand = dataSegment.substring(0, newLineIndex);
 
         commandHandler = new CommandHandler(realMemory, supervizorMemory);
@@ -115,11 +115,49 @@ public class VMController implements Initializable {
     }
 
     public void CSreadAll(ActionEvent actionEvent) {
+        String codeSegment = getCodeSegment();
+        String[] commands = codeSegment.split("\n");
 
+        commandHandler = new CommandHandler(realMemory, supervizorMemory);
+        for (String command :
+                commands) {
+            commandHandler.handleCommand(command);
+        }
+        DataTextBox.setText("");
     }
 
     public void CSreadOne(ActionEvent actionEvent) {
+        String codeSegment = getCodeSegment();
 
+        //Get new line index and handle command
+        int newLineIndex = codeSegment.indexOf("\n");
+        String singleCommand = codeSegment.substring(0, newLineIndex);
+
+        commandHandler = new CommandHandler(realMemory, supervizorMemory);
+        commandHandler.handleCommand(singleCommand);
+
+        CodeTextBox.setText(codeSegment.substring(newLineIndex));
+    }
+
+
+    private String getCodeSegment() {
+        String codeSegment = CodeTextBox.getText();
+
+        //Validate if the string has a new line at the end if not append it
+        if (!(codeSegment.charAt(codeSegment.length() - 1) == '\n'))
+            codeSegment += '\n';
+
+        return codeSegment;
+    }
+
+    private String getDataSegment() {
+        String dataSegment = DataTextBox.getText();
+
+        //Validate if the string has a new line at the end if not append it
+        if (!(dataSegment.charAt(dataSegment.length() - 1) == '\n'))
+            dataSegment += '\n';
+
+        return dataSegment;
     }
 
     private void InitClientMemory() {

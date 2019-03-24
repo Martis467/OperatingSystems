@@ -50,6 +50,9 @@ public class ArithmeticCommand {
         cpu.IC(cpu.IC() + 1);
         int SP = cpu.SP();
 
+        //Decrement timer
+        cpu.TI(cpu.TI() - 1);
+
         //If our stack has only one variable or none, we do nothing
         if (SP >= memory.size())
             return;

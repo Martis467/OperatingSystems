@@ -113,20 +113,19 @@ public class MainPanelController implements Initializable {
             FXMLLoader loader = JFXLoader.getLoader("VM");
             Stage stage = JFXLoader.loadWindow(loader, "Virtual computer");
 
-
-
-
-
             VMController controller = loader.<VMController>getController();
 
             int sublistFrom = Integer.valueOf("400", 16);
-            int sublistTo = Integer.valueOf("7FF", 16);
+            int sublistTo = Integer.valueOf("4FF", 16);
 
             CPU cpu = CPU.getInstance();
-            cpu.PRG(400);
+            cpu.PRG(sublistFrom);
 
             supMemorylist.get(1).setValue(1*1000+cpu.PRG());//i supervizoriu iraso masinoos numeriu ar aktyvi ir nuo kurios vietos atmintis prasideda
             SupervisorTableView.refresh();
+
+            //Update register values
+            InitRegisters();
 
             controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist, 256);
 

@@ -9,8 +9,13 @@ public enum BaseConverter {
     Decimal,
     Hexadecimal;
 
-    public static String convertValue(int val, BaseConverter base)
-    {
+    /**
+     * Converst an integer to a hexadecimal string
+     * @param val
+     * @param base
+     * @return
+     */
+    public static String convertValue(int val, BaseConverter base) {
         switch (base){
             case Binary:
                 String bin = Integer.toBinaryString(val);
@@ -20,6 +25,19 @@ public enum BaseConverter {
                 return Strings.padStart(hex, 4, '0').toUpperCase();
             default:
                     return String.valueOf(val).toUpperCase();
+        }
+    }
+
+    public static int converToDecimal(String val, BaseConverter base){
+        switch (base){
+            case Binary:
+                return Integer.parseInt(val, 2);
+
+            case Hexadecimal:
+                return Integer.parseInt(val, 16);
+
+            default:
+                    return Integer.parseInt(val);
         }
     }
 }

@@ -40,10 +40,6 @@ public class ArithmeticCommand {
         //Increment instruction counter
         cpu.IC(cpu.IC() + 1);
         int SP = cpu.SP();
-
-        //Get [SP] value and set head to zero
-        int value = memory.get(SP).getValueInt();
-        memory.get(SP).setValue(value * -1);
     }
 
     private static void GenericArithmeticCommand(ObservableList<WordFX> memory, Operation operation) {
@@ -56,7 +52,7 @@ public class ArithmeticCommand {
         //If our stack has only one variable or none, we do nothing
         if (SP <= memory.size() - 32)
             return;
-
+        
         //Get [SP] value and set head to zero
         int value1 = memory.get(SP).getValueInt();
         memory.get(SP).setValue(0);

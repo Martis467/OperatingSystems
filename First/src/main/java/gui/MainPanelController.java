@@ -187,15 +187,16 @@ public class MainPanelController implements Initializable {
      * Initializes the registers to starting values in hex
      */
     private void InitRegisters() {
-        ICregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
-        PRGregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
-        SPregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
-        HRGregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
-        ORGregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
-        IRGregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
-        SIregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
-        TIregister.setText(BaseConverter.convertValue(50, BaseConverter.Hexadecimal));
-        SMregister.setText(BaseConverter.convertValue(0, BaseConverter.Hexadecimal));
-        MODEregister.setText("0"); //Change me to a enum please
+        CPU cpu = CPU.getInstance();
+        ICregister.setText(BaseConverter.convertValue(cpu.IC(), BaseConverter.Hexadecimal));
+        PRGregister.setText(BaseConverter.convertValue(cpu.PRG(), BaseConverter.Hexadecimal));
+        SPregister.setText(BaseConverter.convertValue(cpu.SP(), BaseConverter.Hexadecimal));
+        HRGregister.setText(BaseConverter.convertValue(cpu.HRG(), BaseConverter.Hexadecimal));
+        ORGregister.setText(BaseConverter.convertValue(cpu.ORG(), BaseConverter.Hexadecimal));
+        IRGregister.setText(BaseConverter.convertValue(cpu.IRG(), BaseConverter.Hexadecimal));
+        SIregister.setText(BaseConverter.convertValue(cpu.SI(), BaseConverter.Hexadecimal));
+        TIregister.setText(BaseConverter.convertValue(cpu.TI(), BaseConverter.Hexadecimal));
+        SMregister.setText(BaseConverter.convertValue(cpu.SM(), BaseConverter.Hexadecimal));
+        MODEregister.setText(BaseConverter.convertValue(cpu.MODE(), BaseConverter.Hexadecimal)); //Change me to a enum please
     }
 }

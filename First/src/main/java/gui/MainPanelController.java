@@ -113,6 +113,10 @@ public class MainPanelController implements Initializable {
             FXMLLoader loader = JFXLoader.getLoader("VM");
             Stage stage = JFXLoader.loadWindow(loader, "Virtual computer");
 
+
+
+
+
             VMController controller = loader.<VMController>getController();
 
             int sublistFrom = Integer.valueOf("400", 16);
@@ -120,8 +124,16 @@ public class MainPanelController implements Initializable {
 
             CPU cpu = CPU.getInstance();
             cpu.PRG(400);
+
+            supMemorylist.get(1).setValue(1*1000+cpu.PRG());//i supervizoriu iraso masinoos numeriu ar aktyvi ir nuo kurios vietos atmintis prasideda
+            SupervisorTableView.refresh();
+
             controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist, 256);
+
+
             stage.show();
+
+
 
         } catch (IOException e) {
             JFXUtillities.showAlert("VM creation", "Could not create new VM", Alert.AlertType.ERROR);

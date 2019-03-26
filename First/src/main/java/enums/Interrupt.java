@@ -1,4 +1,4 @@
-package models;
+package enums;
 
 public enum Interrupt {
     ForbiddenMemoryAccess(1),
@@ -12,7 +12,7 @@ public enum Interrupt {
     STOP(9),
     LC(10),
     UC(11),
-    TimerZeor(12);
+    TimerZero(12);
 
     private final int val;
 

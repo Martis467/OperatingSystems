@@ -112,7 +112,7 @@
             <AnchorPane fx:id="CUPane" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Button layoutX="147.0" layoutY="14.0" mnemonicParsing="false" onAction="#ResetRegisterValues" prefHeight="43.0" prefWidth="116.0" text="Reset regsiter values" wrapText="true" />
-                  <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="116.0" text="Connect hard drive" wrapText="true" />
+                  <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#ToggleRegisterRefresh" prefHeight="43.0" prefWidth="116.0" text="a" wrapText="true" fx:id="ToggleRefreshButton" />
                </children>
             </AnchorPane>
          </children>

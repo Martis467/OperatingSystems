@@ -103,7 +103,12 @@ public class VMController implements Initializable {
     }
 
     public void DSreadOne(ActionEvent actionEvent) {
+
         String dataSegment = getDataSegment();
+
+        if(dataSegment.isEmpty()) {
+            return;
+        }
 
         //Get new line index and handle command
         int newLineIndex = dataSegment.indexOf("\n");
@@ -116,8 +121,9 @@ public class VMController implements Initializable {
         String temp = dataSegment.substring(newLineIndex+1,lenght);
 
         //paduodama pirma komanda be \n
+
         commandHandler = new CommandHandler(realMemory, supervizorMemory);
-        commandHandler.handleCommand(singleCommand);
+        commandHandler.handleCommand(singleCommand); //sitas neveikia
 
         //atgal ikeliama tekstas be: pirmos komandos+\n
         DataTextBox.setText(temp);

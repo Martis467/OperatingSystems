@@ -1,4 +1,4 @@
-package models.commands;
+package enums;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -76,7 +76,7 @@ public enum Command {
 
     private static Optional<Command> findCommand(String command){
         return Arrays.stream(values())
-                .filter(com -> com.toString().equals(command)).findFirst();
+                .filter(com -> command.contains(com.toString())).findFirst();
     }
 
     public String getCode() {
@@ -87,4 +87,14 @@ public enum Command {
         return Integer.valueOf(hexCode, 16);
     }
 
+    /**
+     * Strips the command string
+     * Example: PUS XD or PUSXD -> XD
+     * @param command
+     */
+    public String stripCommand(String command) {
+        command = command.replace(this.toString(), "");
+        command = command.trim();
+        return command;
+    }
 }

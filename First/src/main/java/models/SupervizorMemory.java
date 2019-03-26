@@ -2,10 +2,8 @@ package models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import models.commands.Command;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class SupervizorMemory {
 

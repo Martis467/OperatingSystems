@@ -1,9 +1,9 @@
 package models.commands;
 
-import javafx.collections.FXCollections;
+import enums.Command;
 import javafx.collections.ObservableList;
 import models.CPU;
-import models.RAM;
+import enums.Interrupt;
 import models.WordFX;
 
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ public class CommandHandler {
         stackCommands.add(Command.PT);
         stackCommands.add(Command.PUN);
         stackCommands.add(Command.PUS);
+        stackCommands.add(Command.POP);
 
         controlCommands = new ArrayList<>();
         controlCommands.add(Command.JP);
@@ -70,17 +71,20 @@ public class CommandHandler {
      */
     public void handleCommand(String command){
         CPU cpu = CPU.getInstance();
-        Command parsedCommand = Command.getCommand(command); //neranda komandos!!!!!!
+        Command parsedCommand = Command.getCommand(command);
+        command = parsedCommand.stripCommand(command);
 
+        if (command == null) {
+            //Reset VM
+            cpu.SI(Interrupt.TimerZero.toInt());
+        }
 
-
-
-        if (command == null)
-            System.out.println("SI = 2 Interupt should happen");
-
-        if (cpu.TI() == 0)
-            System.out.println("SI = B Interupt should happen");
-
+        if (cpu.TI() == 0){
+            cpu.SI(Interrupt.TimerZero.toInt());
+            cpu.MODE(0);
+            cpu.TI(32);
+        } else //Decrement timer
+            cpu.TI(cpu.TI() - 1);
 
         if (arithmeticCommands.contains(parsedCommand)){
             handleArithmeticCommand(parsedCommand);
@@ -107,18 +111,8 @@ public class CommandHandler {
             return;
         }
 
-
-
-        //lieka tik data loading todel zinoma kad pirmi du char yra dw arba dd todel nuemu gala.
-        String commandValue = command.substring(2);
-        Command parsedCommand2 = Command.getCommand(command.substring(0,2)); //neranda komandos!!!!!!
-
-        //System.out.println(command);
-        //System.out.println(parsedCommand2);
-        //System.out.println(commandValue);
-
-        if (dataLoading.contains(parsedCommand2)){
-            handleDataLoading(parsedCommand2, commandValue);
+        if(dataLoading.contains(parsedCommand)){
+            handleDataLoading(parsedCommand, command);
             return;
         }
     }
@@ -141,15 +135,30 @@ public class CommandHandler {
         }
     }
 
-    private void handleDataLoading(Command parsedCommand, String value) {
-        switch (parsedCommand) {
-            case DW:
-                DataLoadingCommands.DW(value, vMemory);
+    private void handleStackCommand(Command parsedCommand, String command) {
+        switch (parsedCommand){
+            case LD:
+                StackCommands.LD(vMemory, Integer.parseInt(command));
                 break;
-            case DD:
+            case PT:
+                StackCommands.PTxy(vMemory, Integer.parseInt(command));
+                break;
+            case PUN:
+                StackCommands.PUN(vMemory, Integer.parseInt(command));
+                break;
+            case PUS:
+                StackCommands.PUS(vMemory, command);
+                break;
+            case POP:
+                StackCommands.POP(vMemory);
+                break;
+            default:
 
-                break;
         }
+    }
+
+    private void handleComparisonCommand(Command parsedCommand) {
+        ComparisonCommand.Compare(vMemory);
     }
 
     private void handleIOCommands(Command parsedCommand, String command) {
@@ -160,11 +169,19 @@ public class CommandHandler {
 
     }
 
-    private void handleStackCommand(Command parsedCommand, String command) {
+    private void handleDataLoading(Command parsedCommand, String value) {
+        switch (parsedCommand) {
+            case DW:
+                DataLoadingCommands.DW(value, vMemory);
+                break;
+            case DD:
+                DataLoadingCommands.DD(value, vMemory);
+                break;
+            case DN:
+                DataLoadingCommands.DN(vMemory);
+                break;
+            default:
+                    break;
+        }
     }
-
-    private void handleComparisonCommand(Command parsedCommand) {
-
-    }
-
 }

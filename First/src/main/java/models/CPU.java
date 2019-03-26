@@ -1,5 +1,6 @@
 package models;
 
+import enums.VMSize;
 import utillities.BaseConverter;
 
 /**
@@ -8,6 +9,7 @@ import utillities.BaseConverter;
 public class CPU {
 
     private static CPU cpu;
+    private static VMSize vmSize;
 
     private static int IC;
     private static int PRG;
@@ -42,6 +44,18 @@ public class CPU {
 
         return cpu;
     }
+
+    /**
+     * Set virtual machine size for easy access anywhere
+     * @param vm
+     */
+    public static void setVM(VMSize vm) {vmSize = vm;}
+
+    /**
+     * Get the maximum value the SP could have with the current Virutal machine
+     * @return
+     */
+    public static int getStackMaxValue() {return vmSize.getMaxVMAddress();}
 
     //Getters and setters
     public static int   IC() {return IC;}

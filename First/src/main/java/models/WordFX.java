@@ -34,4 +34,5 @@ public class WordFX {
 
     public void setAddress(int val) {address = new SimpleStringProperty(BaseConverter.convertValue(val, BaseConverter.Hexadecimal));}
     public void setValue(int val) {value = new SimpleStringProperty(BaseConverter.convertValue(val, BaseConverter.Hexadecimal));}
+    public void setValue(String val) {value = new SimpleStringProperty(val);}
 }

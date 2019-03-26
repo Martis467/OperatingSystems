@@ -2,7 +2,7 @@ package models.commands;
 
 import javafx.collections.ObservableList;
 import models.CPU;
-import models.Interrupt;
+import enums.Interrupt;
 import models.WordFX;
 
 public class ArithmeticCommand {
@@ -31,10 +31,18 @@ public class ArithmeticCommand {
         GenericArithmeticCommand(memory, Operation.MUL);
     }
 
+    /**
+     * Divides two top elements in the stack and places the result [SP-1] address
+     * @param memory
+     */
     public static void Divide(ObservableList<WordFX> memory){
       GenericArithmeticCommand(memory, Operation.DIV);
     }
 
+    /**
+     * Invert sign of the value
+     * @param memory
+     */
     public static void Not(ObservableList<WordFX> memory) {
         CPU cpu = CPU.getInstance();
 
@@ -49,9 +57,6 @@ public class ArithmeticCommand {
         //Increment instruction counter
         cpu.IC(cpu.IC() + 1);
         int SP = cpu.SP();
-
-        //Decrement timer
-        cpu.TI(cpu.TI() - 1);
 
         //If our stack has only one variable or none, we do nothing
         if (SP >= memory.size())
@@ -88,6 +93,8 @@ public class ArithmeticCommand {
             case DIV:
                 //put the quotient to stack
                 memory.get(SP).setValue(value1/value2);
+                break;
+            case NOT:
                 break;
             default:
                     break;

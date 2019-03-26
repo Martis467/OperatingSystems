@@ -86,63 +86,87 @@ public class VMController implements Initializable {
 
         ClientMemoryTable.getItems().setAll(clientMemory);
         this.supervizorMemory = supervizorMemory;
+
+        //Set CPU values
+        cpu.SP(vmSize - 1);
+
     }
 
     public void DSreadAll(ActionEvent actionEvent) {
         String dataSegment = getDataSegment();
+
+        if (dataSegment.isEmpty())
+            return;
+
         String[] commands = dataSegment.split("\n");
 
-        commandHandler = new CommandHandler(realMemory, supervizorMemory);
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         for (String command :
                 commands) {
             commandHandler.handleCommand(command);
         }
         DataTextBox.setText("");
+        RefreshRM();
     }
 
     public void DSreadOne(ActionEvent actionEvent) {
         String dataSegment = getDataSegment();
 
+        if (dataSegment.isEmpty())
+            return;
+
         //Get new line index and handle command
         int newLineIndex = dataSegment.indexOf("\n");
         String singleCommand = dataSegment.substring(0, newLineIndex);
 
-        commandHandler = new CommandHandler(realMemory, supervizorMemory);
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
         DataTextBox.setText(dataSegment.substring(newLineIndex));
-
+        RefreshRM();
     }
 
     public void CSreadAll(ActionEvent actionEvent) {
         String codeSegment = getCodeSegment();
+
+        if (codeSegment.isEmpty())
+            return;
+
         String[] commands = codeSegment.split("\n");
 
-        commandHandler = new CommandHandler(realMemory, supervizorMemory);
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         for (String command :
                 commands) {
             commandHandler.handleCommand(command);
         }
         //DataTextBox.clear();
         DataTextBox.setText("");
+        RefreshRM();
     }
 
     public void CSreadOne(ActionEvent actionEvent) {
         String codeSegment = getCodeSegment();
 
+        if (codeSegment.isEmpty())
+            return;
+
         //Get new line index and handle command
         int newLineIndex = codeSegment.indexOf("\n");
         String singleCommand = codeSegment.substring(0, newLineIndex);
 
-        commandHandler = new CommandHandler(realMemory, supervizorMemory);
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
         CodeTextBox.setText(codeSegment.substring(newLineIndex));
+        RefreshRM();
     }
 
 
     private String getCodeSegment() {
         String codeSegment = CodeTextBox.getText();
+
+        if (codeSegment.isEmpty())
+            return "";
 
         //Validate if the string has a new line at the end if not append it
         if (!(codeSegment.charAt(codeSegment.length() - 1) == '\n'))
@@ -154,6 +178,9 @@ public class VMController implements Initializable {
     private String getDataSegment() {
         String dataSegment = DataTextBox.getText();
 
+        if (dataSegment.isEmpty())
+            return "";
+
         //Validate if the string has a new line at the end if not append it
         if (!(dataSegment.charAt(dataSegment.length() - 1) == '\n'))
             dataSegment += '\n';
@@ -163,7 +190,7 @@ public class VMController implements Initializable {
 
     private void InitClientMemory() {
 
-        for (int i = 1; i < realMemory.size(); i++){
+        for (int i = 0; i < realMemory.size(); i++){
             clientMemory.add(new WordFX(i, 0));
         }
     }
@@ -174,5 +201,13 @@ public class VMController implements Initializable {
 
         HardDriveAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         HardDriveValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+    }
+
+    private void RefreshRM() {
+        //Refresh Client's memory values to RM values
+        for (int i = 0; i < realMemory.size(); i++){
+            String clientValue = clientMemory.get(i).getValue();
+            realMemory.get(i).setValue(clientValue);
+        }
     }
 }

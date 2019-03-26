@@ -123,6 +123,7 @@ public class VMController implements Initializable {
                 commands) {
             commandHandler.handleCommand(command);
         }
+        //DataTextBox.clear();
         DataTextBox.setText("");
     }
 

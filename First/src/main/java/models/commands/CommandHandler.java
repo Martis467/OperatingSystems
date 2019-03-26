@@ -70,7 +70,9 @@ public class CommandHandler {
      */
     public void handleCommand(String command){
         CPU cpu = CPU.getInstance();
-        Command parsedCommand = Command.getCommand(command);
+        Command parsedCommand = Command.getCommand(command); //neranda komandos!!!!!!
+
+
 
 
         if (command == null)
@@ -105,8 +107,18 @@ public class CommandHandler {
             return;
         }
 
-        if (dataLoading.contains(parsedCommand)){
-            handleDataLoading(parsedCommand, command);
+
+
+        //lieka tik data loading todel zinoma kad pirmi du char yra dw arba dd todel nuemu gala.
+        String commandValue = command.substring(2);
+        Command parsedCommand2 = Command.getCommand(command.substring(0,2)); //neranda komandos!!!!!!
+
+        //System.out.println(command);
+        //System.out.println(parsedCommand2);
+        //System.out.println(commandValue);
+
+        if (dataLoading.contains(parsedCommand2)){
+            handleDataLoading(parsedCommand2, commandValue);
             return;
         }
     }
@@ -129,8 +141,15 @@ public class CommandHandler {
         }
     }
 
-    private void handleDataLoading(Command parsedCommand, String command) {
+    private void handleDataLoading(Command parsedCommand, String value) {
+        switch (parsedCommand) {
+            case DW:
+                DataLoadingCommands.DW(value, vMemory);
+                break;
+            case DD:
 
+                break;
+        }
     }
 
     private void handleIOCommands(Command parsedCommand, String command) {

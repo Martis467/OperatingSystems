@@ -108,6 +108,7 @@ public class MainPanelController implements Initializable {
     }
 
 
+    //kai paspaudi create kas ivyksta
     public void CreateNewVM(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = JFXLoader.getLoader("VM");
@@ -115,8 +116,8 @@ public class MainPanelController implements Initializable {
 
             VMController controller = loader.<VMController>getController();
 
-            int sublistFrom = Integer.valueOf("400", 16);
-            int sublistTo = Integer.valueOf("4FF", 16);
+            int sublistFrom = Integer.valueOf("A", 16);
+            int sublistTo = Integer.valueOf("109", 16);
 
             CPU cpu = CPU.getInstance();
             cpu.PRG(sublistFrom);
@@ -127,6 +128,7 @@ public class MainPanelController implements Initializable {
             //Update register values
             InitRegisters();
 
+            //padaro pagal prg registra vm memory
             controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist, 256);
 
 

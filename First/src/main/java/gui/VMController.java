@@ -19,6 +19,8 @@ import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class VMController implements Initializable {
 
@@ -105,12 +107,23 @@ public class VMController implements Initializable {
 
         //Get new line index and handle command
         int newLineIndex = dataSegment.indexOf("\n");
+
+        //gaunu string iki pirmo \n
         String singleCommand = dataSegment.substring(0, newLineIndex);
 
+        //istrinu pirma \n
+        int lenght = dataSegment.length();
+        String temp = dataSegment.substring(newLineIndex+1,lenght);
+
+        //paduodama pirma komanda be \n
         commandHandler = new CommandHandler(realMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
-        DataTextBox.setText(dataSegment.substring(newLineIndex));
+        //atgal ikeliama tekstas be: pirmos komandos+\n
+        DataTextBox.setText(temp);
+
+        //dw20\n  jei viena eilute
+        //dw20\ndw30\n jei 2 eilutes parasai, reiskia visa teksta nuskaito
 
     }
 
@@ -157,7 +170,6 @@ public class VMController implements Initializable {
         //Validate if the string has a new line at the end if not append it
         if (!(dataSegment.charAt(dataSegment.length() - 1) == '\n'))
             dataSegment += '\n';
-
         return dataSegment;
     }
 

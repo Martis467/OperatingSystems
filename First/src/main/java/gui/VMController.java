@@ -140,7 +140,7 @@ public class VMController implements Initializable {
             commandHandler.handleCommand(command);
         }
         //DataTextBox.clear();
-        DataTextBox.setText("");
+        CodeTextBox.setText("");
         RefreshRM();
     }
 

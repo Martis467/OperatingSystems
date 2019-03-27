@@ -19,8 +19,6 @@ import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class VMController implements Initializable {
 
@@ -88,80 +86,87 @@ public class VMController implements Initializable {
 
         ClientMemoryTable.getItems().setAll(clientMemory);
         this.supervizorMemory = supervizorMemory;
+
+        //Set CPU values
+        cpu.SP(vmSize - 1);
+
     }
 
     public void DSreadAll(ActionEvent actionEvent) {
         String dataSegment = getDataSegment();
+
+        if (dataSegment.isEmpty())
+            return;
+
         String[] commands = dataSegment.split("\n");
 
-        commandHandler = new CommandHandler(realMemory, supervizorMemory);
-        for (String command :
-                commands) {
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
+        for (String command : commands) {
             commandHandler.handleCommand(command);
         }
         DataTextBox.setText("");
+        RefreshRM();
     }
 
     public void DSreadOne(ActionEvent actionEvent) {
-
         String dataSegment = getDataSegment();
 
-        if(dataSegment.isEmpty()) {
+        if (dataSegment.isEmpty())
             return;
-        }
 
         //Get new line index and handle command
         int newLineIndex = dataSegment.indexOf("\n");
-
-        //gaunu string iki pirmo \n
         String singleCommand = dataSegment.substring(0, newLineIndex);
 
-        //istrinu pirma \n
-        int lenght = dataSegment.length();
-        String temp = dataSegment.substring(newLineIndex+1,lenght);
+        //commandHandler = new CommandHandler(clientMemory, supervizorMemory);
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
+        commandHandler.handleCommand(singleCommand);
 
-        //paduodama pirma komanda be \n
-
-        commandHandler = new CommandHandler(realMemory, supervizorMemory);
-        commandHandler.handleCommand(singleCommand); //sitas neveikia
-
-        //atgal ikeliama tekstas be: pirmos komandos+\n
-        DataTextBox.setText(temp);
-
-        //dw20\n  jei viena eilute
-        //dw20\ndw30\n jei 2 eilutes parasai, reiskia visa teksta nuskaito
-
+        DataTextBox.setText(dataSegment.substring(newLineIndex+1));
+        RefreshRM();
     }
 
     public void CSreadAll(ActionEvent actionEvent) {
         String codeSegment = getCodeSegment();
+
+        if (codeSegment.isEmpty())
+            return;
+
         String[] commands = codeSegment.split("\n");
 
-        commandHandler = new CommandHandler(realMemory, supervizorMemory);
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         for (String command :
                 commands) {
             commandHandler.handleCommand(command);
         }
         //DataTextBox.clear();
         DataTextBox.setText("");
+        RefreshRM();
     }
 
     public void CSreadOne(ActionEvent actionEvent) {
         String codeSegment = getCodeSegment();
 
+        if (codeSegment.isEmpty())
+            return;
+
         //Get new line index and handle command
         int newLineIndex = codeSegment.indexOf("\n");
         String singleCommand = codeSegment.substring(0, newLineIndex);
 
-        commandHandler = new CommandHandler(realMemory, supervizorMemory);
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
         CodeTextBox.setText(codeSegment.substring(newLineIndex));
+        RefreshRM();
     }
 
 
     private String getCodeSegment() {
         String codeSegment = CodeTextBox.getText();
+
+        if (codeSegment.isEmpty())
+            return "";
 
         //Validate if the string has a new line at the end if not append it
         if (!(codeSegment.charAt(codeSegment.length() - 1) == '\n'))
@@ -173,15 +178,19 @@ public class VMController implements Initializable {
     private String getDataSegment() {
         String dataSegment = DataTextBox.getText();
 
+        if (dataSegment.isEmpty())
+            return "";
+
         //Validate if the string has a new line at the end if not append it
         if (!(dataSegment.charAt(dataSegment.length() - 1) == '\n'))
             dataSegment += '\n';
+
         return dataSegment;
     }
 
     private void InitClientMemory() {
 
-        for (int i = 1; i < realMemory.size(); i++){
+        for (int i = 0; i < realMemory.size(); i++){
             clientMemory.add(new WordFX(i, 0));
         }
     }
@@ -193,4 +202,14 @@ public class VMController implements Initializable {
         HardDriveAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         HardDriveValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
     }
+
+    private void RefreshRM() {
+        //Refresh Client's memory values to RM values
+        for (int i = 0; i < realMemory.size(); i++){
+            String clientValue = clientMemory.get(i).getValue();
+            realMemory.get(i).setValue(clientValue);
+        }
+    }
+
+
 }

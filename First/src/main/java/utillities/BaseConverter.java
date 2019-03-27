@@ -39,5 +39,8 @@ public enum BaseConverter {
             default:
                     return Integer.parseInt(val);
         }
+
     }
+
+    public static String getHexRegex(){ return "\\p{XDigit}+";}
 }

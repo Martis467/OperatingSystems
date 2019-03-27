@@ -131,7 +131,6 @@ public class MainPanelController implements Initializable {
 
             CPU cpu = CPU.getInstance();
             cpu.PRG(sublistFrom);
-            cpu.IC(sublistFrom);
 
             //i supervizoriu iraso masinoos numeriu ar aktyvi ir nuo kurios vietos atmintis prasideda
             supMemorylist.get(1).setValue(1*1000+cpu.PRG());

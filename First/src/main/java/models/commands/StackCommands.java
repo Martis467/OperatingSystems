@@ -3,6 +3,7 @@ package models.commands;
 import javafx.collections.ObservableList;
 import models.CPU;
 import models.WordFX;
+import utillities.BaseConverter;
 
 public class StackCommands {
 
@@ -23,17 +24,20 @@ public class StackCommands {
         if (dsAddress > 111)
             return;
 
-        //If this is the first stack element
+        String dsValue = memory.get(dsAddress).getValue();
+        String stackHead = memory.get(255).getValue();
+
+        //If the first stack element is zeros
         //We don't need to increase SP because our head is empty
-        if((SP >= 255)) {
-            memory.get(SP).setValue(dsAddress);
-            SP--;
-            cpu.SP(SP);
+        //We just have to add the element
+        if((stackHead.equals("0000"))) {
+            memory.get(SP).setValue(dsValue);
             return;
         }
 
-        String dsValue = memory.get(dsAddress).getValue();
+        SP--;
         memory.get(SP).setValue(dsValue);
+        cpu.SP(SP);
     }
 
     /**
@@ -41,7 +45,7 @@ public class StackCommands {
      * @param memory
      * @param dsAddress
      */
-    public static void PTxy(ObservableList<WordFX> memory, int dsAddress) {
+    public static void PT(ObservableList<WordFX> memory, int dsAddress) {
         CPU cpu = CPU.getInstance();
 
         //Increment instruction counter
@@ -62,22 +66,28 @@ public class StackCommands {
      * @param memory
      * @param value
      */
-    public static void PUN(ObservableList<WordFX> memory, int value) {
+    public static void PUN(ObservableList<WordFX> memory, String value) {
         CPU cpu = CPU.getInstance();
 
         //Increment instruction counter
         cpu.IC(cpu.IC() + 1);
         int SP = cpu.SP();
 
-        //If this is the first stack element
+        //Check if the value is hex
+        if (!value.matches(BaseConverter.getHexRegex()))
+            return;
+
+        String stackHead = memory.get(255).getValue();
+
+        //If the first stack element is zeros
         //We don't need to increase SP because our head is empty
-        if((SP >= 255)) {
+        //We just have to add the element
+        if((stackHead.equals("0000"))) {
             memory.get(SP).setValue(value);
-            SP--;
-            cpu.SP(SP);
             return;
         }
 
+        SP--;
         memory.get(SP).setValue(value);
         cpu.SP(SP);
     }
@@ -94,12 +104,17 @@ public class StackCommands {
         cpu.IC(cpu.IC() + 1);
         int SP = cpu.SP();
 
-        //If this is the first stack element
+        //2bytes can hold 2 symbols
+        if (value.length() > 2)
+            return;
+
+        String stackHead = memory.get(255).getValue();
+
+        //If the first stack element is zeros
         //We don't need to increase SP because our head is empty
-        if((SP >= 255)) {
+        //We just have to add the element
+        if((stackHead.equals("0000"))) {
             memory.get(SP).setValue(value);
-            SP--;
-            cpu.SP(SP);
             return;
         }
 

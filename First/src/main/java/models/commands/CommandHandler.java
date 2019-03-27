@@ -136,15 +136,16 @@ public class CommandHandler {
     }
 
     private void handleStackCommand(Command parsedCommand, String command) {
+        int commandInteger = Integer.parseInt(command,16);
         switch (parsedCommand){
             case LD:
-                StackCommands.LD(vMemory, Integer.parseInt(command));
+                StackCommands.LD(vMemory, commandInteger);
                 break;
             case PT:
-                StackCommands.PTxy(vMemory, Integer.parseInt(command));
+                StackCommands.PT(vMemory, commandInteger);
                 break;
             case PUN:
-                StackCommands.PUN(vMemory, Integer.parseInt(command));
+                StackCommands.PUN(vMemory, command);
                 break;
             case PUS:
                 StackCommands.PUS(vMemory, command);

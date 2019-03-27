@@ -133,7 +133,7 @@ public class MainPanelController implements Initializable {
             cpu.PRG(sublistFrom);
 
             //i supervizoriu iraso masinoos numeriu ar aktyvi ir nuo kurios vietos atmintis prasideda
-            supMemorylist.get(1).setValue(1*1000+cpu.PRG());
+            supMemorylist.get(1).setValue(1*4096+cpu.PRG());
 
             SupervisorTableView.refresh();
 

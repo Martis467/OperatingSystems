@@ -101,8 +101,7 @@ public class VMController implements Initializable {
         String[] commands = dataSegment.split("\n");
 
         commandHandler = new CommandHandler(clientMemory, supervizorMemory);
-        for (String command :
-                commands) {
+        for (String command : commands) {
             commandHandler.handleCommand(command);
         }
         DataTextBox.setText("");
@@ -119,10 +118,11 @@ public class VMController implements Initializable {
         int newLineIndex = dataSegment.indexOf("\n");
         String singleCommand = dataSegment.substring(0, newLineIndex);
 
+        //commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
-        DataTextBox.setText(dataSegment.substring(newLineIndex));
+        DataTextBox.setText(dataSegment.substring(newLineIndex+1));
         RefreshRM();
     }
 
@@ -210,4 +210,6 @@ public class VMController implements Initializable {
             realMemory.get(i).setValue(clientValue);
         }
     }
+
+
 }

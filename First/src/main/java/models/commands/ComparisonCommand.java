@@ -14,7 +14,7 @@ public class ComparisonCommand {
         int SP = cpu.SP();
 
         //If our stack has only one variable or none, we don't do anything
-        if (SP+1 >= memory.size())
+        if (SP >= 255)
             return;
 
         //Get first value and set head to zero
@@ -28,8 +28,8 @@ public class ComparisonCommand {
 
         /*
          * Compare, increase SP value and add the result to [SP-1]:
-         * if [SP - 1] > [SP] = 1
-         * if [SP - 1] < [SP] = 2
+         * if [SP + 1] > [SP] = 1
+         * if [SP + 1] < [SP] = 2
          * else 0
          */
 

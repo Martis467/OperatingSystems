@@ -9,7 +9,7 @@ import utillities.BaseConverter;
 public class DataLoadingCommands {
 
     /**
-     * Inserts integer hex value to data segement
+     * Inserts integer hex value to data segment
      * @param value
      * @param memory
      */

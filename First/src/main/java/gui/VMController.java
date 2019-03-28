@@ -56,7 +56,7 @@ public class VMController implements Initializable {
     @FXML
     private TextArea CodeTextBox;
     @FXML
-    private TextArea MachineTextBox;
+    private TextArea MonitorTextBox;
 
     //endregion
 
@@ -90,6 +90,8 @@ public class VMController implements Initializable {
         //Set CPU values
         cpu.SP(vmSize - 1);
 
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
+
     }
 
     public void DSreadAll(ActionEvent actionEvent) {
@@ -100,7 +102,6 @@ public class VMController implements Initializable {
 
         String[] commands = dataSegment.split("\n");
 
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         for (String command : commands) {
             commandHandler.handleCommand(command);
         }
@@ -118,7 +119,6 @@ public class VMController implements Initializable {
         int newLineIndex = dataSegment.indexOf("\n");
         String singleCommand = dataSegment.substring(0, newLineIndex);
 
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
         DataTextBox.setText(dataSegment.substring(newLineIndex+1));
@@ -132,11 +132,8 @@ public class VMController implements Initializable {
             return;
 
         String[] commands = codeSegment.split("\n");
+        commandHandler.AddCommandsToMemory(commands);
 
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
-        for (String command : commands) {
-            commandHandler.handleCommand(command);
-        }
         CodeTextBox.setText("");
         RefreshRM();
     }
@@ -151,7 +148,6 @@ public class VMController implements Initializable {
         int newLineIndex = codeSegment.indexOf("\n");
         String singleCommand = codeSegment.substring(0, newLineIndex);
 
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
         CodeTextBox.setText(codeSegment.substring(newLineIndex+1));
@@ -209,4 +205,7 @@ public class VMController implements Initializable {
     }
 
 
+    public void ExecuteCommands(ActionEvent actionEvent) {
+
+    }
 }

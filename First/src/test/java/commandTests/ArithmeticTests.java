@@ -1,5 +1,6 @@
 package commandTests;
 
+import enums.VMSize;
 import javafx.collections.ObservableList;
 import models.CPU;
 import models.WordFX;
@@ -7,10 +8,22 @@ import models.commands.ArithmeticCommand;
 import models.commands.DataLoadingCommands;
 import models.commands.StackCommands;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ArithmeticTests {
 
+    private CPU cpu;
+    private VMSize vmSize;
+
+    public  void initValues() {
+        vmSize = VMSize.Big;
+        cpu = CPU.getInstance();
+        cpu.setVM(vmSize);
+        cpu.SP(vmSize.getVmSize()-1);
+
+    }
     /* SUDETIS
     DS:
         DW20
@@ -22,9 +35,8 @@ public class ArithmeticTests {
     */
     @Test
     public void testAdd(){
-        CPU cpu = CPU.getInstance();
-
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        initValues();
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         DataLoadingCommands.DW("20", vRam);
         DataLoadingCommands.DW("10", vRam);
@@ -49,10 +61,8 @@ SUB
      */
     @Test
     public void testSub(){
-        CPU cpu = CPU.getInstance();
-        cpu.SP(255);
-
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        initValues();
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         //If there is only one element nothing should happen
         DataLoadingCommands.DW("30", vRam);
@@ -94,10 +104,8 @@ MUL
  */
     @Test
     public void testMul(){
-        CPU cpu = CPU.getInstance();
-        cpu.SP(255);
-
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        initValues();
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         //If there is only one element nothing should happen
         DataLoadingCommands.DW("5", vRam);

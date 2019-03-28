@@ -1,5 +1,6 @@
 package commandTests;
 
+import enums.VMSize;
 import javafx.collections.ObservableList;
 import models.CPU;
 import models.WordFX;
@@ -9,6 +10,16 @@ import org.junit.Test;
 
 public class DataLoadingTests {
 
+    private CPU cpu;
+    private VMSize vmSize;
+
+    public  void initValues() {
+        vmSize = VMSize.Big;
+        cpu = CPU.getInstance();
+        cpu.setVM(vmSize);
+        cpu.SP(vmSize.getVmSize()-1);
+
+    }
 
     /* Live tests
 DW FA
@@ -19,9 +30,8 @@ DN
      */
     @Test
     public void testDataLoadingCommands(){
-        CPU cpu = CPU.getInstance();
-
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        initValues();
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         String hex = "FA";
         String badHex = "GA";
@@ -56,8 +66,8 @@ DN
      */
     @Test
     public void testOverTheBoundries(){
-        CPU cpu = CPU.getInstance();
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        initValues();
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         for (int i = 0; i < 256; i++){
             DataLoadingCommands.DW("FA", vRam);

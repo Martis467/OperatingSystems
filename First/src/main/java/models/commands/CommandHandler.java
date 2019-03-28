@@ -75,7 +75,8 @@ public class CommandHandler {
      * @param commands
      */
     public void AddCommandsToMemory(String[] commands) {
-        int CS = 112;
+        CPU cpu = CPU.getInstance();
+        int CS = cpu.vmSegmentSize();
 
         //To iterate with ease turn this array into an arraylist
         ArrayList<String> commandArrayList = new ArrayList<>(Arrays.asList(commands));

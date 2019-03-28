@@ -14,7 +14,7 @@ public class ComparisonCommand {
         int SP = cpu.SP();
 
         //If our stack has only one variable or none, we don't do anything
-        if (SP >= 255)
+        if (SP >= cpu.vmSize()-1)
             return;
 
         //Get first value and set head to zero

@@ -1,5 +1,6 @@
 package gui;
 
+import enums.VMSize;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,6 +19,7 @@ import javafx.util.Duration;
 import models.CPU;
 import models.SupervizorMemory;
 import models.WordFX;
+import sun.misc.VM;
 import utillities.BaseConverter;
 import utillities.JFXLoader;
 import utillities.JFXUtillities;
@@ -120,6 +122,12 @@ public class MainPanelController implements Initializable {
     }
 
     public void CreateNewVM(ActionEvent actionEvent) {
+        VMSize vm = VMSize.getVMSize(VMSizeComboBox.getValue());
+        if (vm == null){
+            JFXUtillities.showAlert("VM", "Select VM size", Alert.AlertType.ERROR);
+            return;
+        }
+
         try {
             FXMLLoader loader = JFXLoader.getLoader("VM");
             Stage stage = JFXLoader.loadWindow(loader, "Virtual computer");
@@ -127,10 +135,13 @@ public class MainPanelController implements Initializable {
             VMController controller = loader.<VMController>getController();
 
             int sublistFrom = Integer.valueOf("400", 16);
-            int sublistTo = Integer.valueOf("500", 16);
+            int sublistTo = sublistFrom + vm.getVmSize();
 
+            //Set vm and it's parameters
             CPU cpu = CPU.getInstance();
+            cpu.setVM(vm);
             cpu.PRG(sublistFrom);
+            cpu.SP(vm.getVmSize()-1);
 
             //i supervizoriu iraso masinoos numeriu ar aktyvi ir nuo kurios vietos atmintis prasideda
             short vmNumber = (short) (1*4096+cpu.PRG());
@@ -139,7 +150,7 @@ public class MainPanelController implements Initializable {
             SupervisorTableView.refresh();
 
             //padaro pagal prg registra vm memory
-            controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist, (short) 256);
+            controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist);
 
             stage.show();
 

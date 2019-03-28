@@ -1,5 +1,6 @@
 package commandTests;
 
+import enums.VMSize;
 import javafx.collections.ObservableList;
 import models.CPU;
 import models.WordFX;
@@ -11,12 +12,21 @@ import org.junit.Test;
 
 public class CompareTests {
 
+    private CPU cpu;
+    private VMSize vmSize;
+
+    public  void initValues() {
+        vmSize = VMSize.Big;
+        cpu = CPU.getInstance();
+        cpu.setVM(vmSize);
+        cpu.SP(vmSize.getVmSize()-1);
+
+    }
+
     @Test
     public void testInvalid(){
-        CPU cpu = CPU.getInstance();
-        cpu.SP(255);
-
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        initValues();
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         //If there is only one element nothing should happen
         DataLoadingCommands.DW("10", vRam);
@@ -37,16 +47,15 @@ MUL
     */
     @Test
     public void testGreater(){
+        initValues();
         /*
          * Compare, increase SP value and add the result to [SP-1]:
          * if [SP + 1] > [SP] = 1
          * if [SP + 1] < [SP] = 2
          * else 0
          */
-        CPU cpu = CPU.getInstance();
-        cpu.SP(255);
 
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         //If there is only one element nothing should happen
         DataLoadingCommands.DW("20", vRam);
@@ -62,16 +71,15 @@ MUL
 
     @Test
     public void testLess(){
+        initValues();
         /*
          * Compare, increase SP value and add the result to [SP-1]:
          * if [SP + 1] > [SP] = 1
          * if [SP + 1] < [SP] = 2
          * else 0
          */
-        CPU cpu = CPU.getInstance();
-        cpu.SP(255);
 
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         //If there is only one element nothing should happen
         DataLoadingCommands.DW("10", vRam);
@@ -87,16 +95,14 @@ MUL
 
     @Test
     public void testEquals(){
+        initValues();
         /*
          * Compare, increase SP value and add the result to [SP-1]:
          * if [SP + 1] > [SP] = 1
          * if [SP + 1] < [SP] = 2
          * else 0
          */
-        CPU cpu = CPU.getInstance();
-        cpu.SP(255);
-
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         //If there is only one element nothing should happen
         DataLoadingCommands.DW("10", vRam);

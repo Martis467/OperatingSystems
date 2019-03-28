@@ -15,7 +15,6 @@ import models.CPU;
 import models.WordFX;
 import models.commands.CommandHandler;
 
-import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -75,9 +74,10 @@ public class VMController implements Initializable {
 
     }
 
-    public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory, short vmSize) {
+    public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory) {
 
         CPU cpu = CPU.getInstance();
+        short vmSize = cpu.vmSize();
         //Match real memory
         this.realMemory.addAll(vMemory);
         InitClientMemory();
@@ -93,7 +93,6 @@ public class VMController implements Initializable {
         cpu.SP(vmSize - 1);
 
         commandHandler = new CommandHandler(clientMemory, supervizorMemory, MonitorTextBox);
-
     }
 
     public void DSreadAll(ActionEvent actionEvent) {

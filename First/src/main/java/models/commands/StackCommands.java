@@ -21,7 +21,7 @@ public class StackCommands {
 
         //Current DS size is 112,
         //We shouldn't add anything above that
-        if (dsAddress > 111)
+        if (dsAddress > cpu.vmStackSize()-1)
             return;
 
         String dsValue = memory.get(dsAddress).getValue();
@@ -54,7 +54,7 @@ public class StackCommands {
 
         //Current DS size is 112,
         //We shouldn't add anything above that
-        if (dsAddress > 111)
+        if (dsAddress > cpu.vmStackSize()-1)
             return;
 
         String value = memory.get(SP).getValue();
@@ -77,7 +77,7 @@ public class StackCommands {
         if (!value.matches(BaseConverter.getHexRegex()))
             return;
 
-        String stackHead = memory.get(255).getValue();
+        String stackHead = memory.get(cpu.vmStackSize()-1).getValue();
 
         //If the first stack element is zeros
         //We don't need to increase SP because our head is empty
@@ -108,7 +108,7 @@ public class StackCommands {
         if (value.length() > 2)
             return;
 
-        String stackHead = memory.get(255).getValue();
+        String stackHead = memory.get(cpu.vmStackSize()-1).getValue();
 
         //If the first stack element is zeros
         //We don't need to increase SP because our head is empty

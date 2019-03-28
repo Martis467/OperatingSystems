@@ -59,7 +59,7 @@ public class ArithmeticCommand {
         int SP = cpu.SP();
 
         //If our stack has only one variable or none, we do nothing
-        if (SP >= 255)
+        if (SP >= cpu.vmSize()-1)
             return;
 
         //Get [SP] value and set head to zero

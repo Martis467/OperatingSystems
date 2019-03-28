@@ -25,7 +25,7 @@ public class RAM {
 
         for (Map.Entry<Integer, Integer> entry:
                 ram.memory.entrySet()) {
-            ramFx.get(entry.getKey()).setValue(entry.getValue());
+            //ramFx.get(entry.getKey()).setValue(entry.getValue());
         }
     }
 

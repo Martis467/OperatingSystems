@@ -16,12 +16,13 @@ public enum BaseConverter {
      * @return
      */
     public static String convertValue(int val, BaseConverter base) {
+        /**Java hacks <link>https://stackoverflow.com/a/13357092/9414567<link/>*/
         switch (base){
             case Binary:
                 String bin = Integer.toBinaryString(val);
                 return Strings.padStart(bin, 32, '0').toUpperCase();
             case Hexadecimal:
-                String hex = Integer.toHexString(val);
+                String hex = Integer.toHexString(val & 0xffff);
                 return Strings.padStart(hex, 4, '0').toUpperCase();
             default:
                     return String.valueOf(val).toUpperCase();

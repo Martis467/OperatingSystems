@@ -29,7 +29,7 @@ public class DataLoadingCommands {
         if (!value.matches(BaseConverter.getHexRegex()))
             return;
 
-        memory.get(IC).setValue(Integer.parseInt(value, 16));
+        memory.get(IC).setValue(Short.parseShort(value, 16));
     }
 
     /**

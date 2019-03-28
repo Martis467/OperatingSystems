@@ -133,12 +133,13 @@ public class MainPanelController implements Initializable {
             cpu.PRG(sublistFrom);
 
             //i supervizoriu iraso masinoos numeriu ar aktyvi ir nuo kurios vietos atmintis prasideda
-            supMemorylist.get(1).setValue(1*4096+cpu.PRG());
+            short vmNumber = (short) (1*4096+cpu.PRG());
+            supMemorylist.get(1).setValue(vmNumber);
 
             SupervisorTableView.refresh();
 
             //padaro pagal prg registra vm memory
-            controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist, 256);
+            controller.InitData(ramMemorylist.subList(sublistFrom, sublistTo), supMemorylist, (short) 256);
 
             stage.show();
 

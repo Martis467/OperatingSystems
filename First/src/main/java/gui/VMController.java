@@ -73,7 +73,7 @@ public class VMController implements Initializable {
 
     }
 
-    public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory, int vmSize) {
+    public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory, short vmSize) {
 
         CPU cpu = CPU.getInstance();
         //Match real memory
@@ -187,8 +187,8 @@ public class VMController implements Initializable {
 
     private void InitClientMemory() {
 
-        for (int i = 0; i < realMemory.size(); i++){
-            clientMemory.add(new WordFX(i, 0));
+        for (short i = 0; i < realMemory.size(); i++){
+            clientMemory.add(new WordFX(i, (short)0));
         }
     }
 

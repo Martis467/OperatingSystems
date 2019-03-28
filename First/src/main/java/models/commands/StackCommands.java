@@ -130,7 +130,7 @@ public class StackCommands {
         cpu.IC(cpu.IC() + 1);
         int SP = cpu.SP();
 
-        memory.get(SP).setValue(0);
+        memory.get(SP).setValue((short)0);
         cpu.SP(SP + 1);
     }
 }

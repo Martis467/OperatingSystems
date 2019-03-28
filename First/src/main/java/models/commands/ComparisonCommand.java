@@ -18,10 +18,10 @@ public class ComparisonCommand {
             return;
 
         //Get first value and set head to zero
-        int value1 = memory.get(SP).getValueInt();
+        short value1 = memory.get(SP).getValueShort();
 
         //Get second value
-        int value2 = memory.get(SP+1).getValueInt();
+        short value2 = memory.get(SP+1).getValueShort();
 
         //Decrease SP
         cpu.SP(SP - 1);
@@ -33,7 +33,7 @@ public class ComparisonCommand {
          * else 0
          */
 
-        int result = 0;
+        short result = 0;
 
         if( value2 > value1) result = 1;
         if( value2 < value1) result = 2;

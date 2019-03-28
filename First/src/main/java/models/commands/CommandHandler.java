@@ -1,7 +1,9 @@
 package models.commands;
 
 import enums.Command;
+import gui.VMController;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TextArea;
 import models.CPU;
 import enums.Interrupt;
 import models.WordFX;
@@ -20,10 +22,12 @@ public class CommandHandler {
 
     private ObservableList<WordFX> vMemory;
     private ObservableList<WordFX> supervizorMemory;
+    private TextArea monitor;
 
-    public CommandHandler(ObservableList<WordFX> vMemory, ObservableList<WordFX> supervisorMemory){
+    public CommandHandler(ObservableList<WordFX> vMemory, ObservableList<WordFX> supervisorMemory, TextArea monitor){
         this.vMemory = vMemory;
         this.supervizorMemory = supervisorMemory;
+        this.monitor = monitor;
 
         //Load all commands
         arithmeticCommands = new ArrayList<>();
@@ -157,7 +161,10 @@ public class CommandHandler {
     }
 
     private void handleStackCommand(Command parsedCommand, String command) {
-        int commandInteger = Integer.parseInt(command,16);
+        int commandInteger = 0;
+        if( !command.equals("") )  {
+            commandInteger = Integer.parseInt(command,16);
+        }
         switch (parsedCommand){
             case LD:
                 StackCommands.LD(vMemory, commandInteger);
@@ -184,6 +191,31 @@ public class CommandHandler {
     }
 
     private void handleIOCommands(Command parsedCommand, String command) {
+        switch (parsedCommand) {
+            case PRTS:
+                IOCommand.PRTS(vMemory, monitor);
+                break;
+            case PRTN:
+                IOCommand.PRTN(vMemory,monitor);
+                break;
+            case P:
+                IOCommand.P(vMemory,monitor,command);
+                break;
+            case R:
+
+                break;
+            case READ:
+                break;
+            case RDH:
+                break;
+            case WRH:
+                break;
+            case STARTIO:
+
+                //nezinau dar kolkas kaip register perduot
+                //IOCommand.STARTIO(vMemory, register);
+                break;
+        }
 
     }
 

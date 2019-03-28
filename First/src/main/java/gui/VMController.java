@@ -54,6 +54,8 @@ public class VMController implements Initializable {
     private TextArea DataTextBox;
     @FXML
     private TextArea CodeTextBox;
+    //@FXML
+    //private TextArea MonitorTextBox;
     @FXML
     private TextArea MonitorTextBox;
 
@@ -90,7 +92,7 @@ public class VMController implements Initializable {
         //Set CPU values
         cpu.SP(vmSize - 1);
 
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory, MonitorTextBox);
     }
 
     public void DSreadAll(ActionEvent actionEvent) {
@@ -152,7 +154,6 @@ public class VMController implements Initializable {
         CodeTextBox.setText(codeSegment.substring(newLineIndex+1));
         RefreshRM();
     }
-
 
     private String getCodeSegment() {
         String codeSegment = CodeTextBox.getText();

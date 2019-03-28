@@ -119,7 +119,100 @@ public class IOCommand {
         cpu.ORG(0);
     }
 
-    public static void R() {
-        
+    /**
+     * į išorinį įrenginį adresu x išveda stack‘e esančias reikšmes nuo pradžios iki simbolio \n.
+     * @param memory
+     * @param hdd
+     * @param adress
+     */
+    public static void R(ObservableList<WordFX> memory,ObservableList<WordFX> hdd, String adress) {
+        CPU cpu = CPU.getInstance();
+
+        //gaunu adresa 10 tainiu o ne string
+        int shortAdress = BaseConverter.converToDecimal(adress,BaseConverter.Hexadecimal);
+
+        cpu.IC(cpu.IC() +1 );
+
+        //jei kanalas uzimtas
+        if(cpu.HRG() == 1)
+            return;
+        //pradedamas isvedimas i hdd kanala
+        cpu.HRG(1);
+
+        String tmp = "";
+
+        while( !tmp.equals("\\n")) {
+            //nuskaitau reiksme is stack
+            tmp = memory.get( shortAdress).getValue();
+            //padidnu sp reiksme
+            cpu.SP( cpu.SP()+1);
+            //irasau i hdd
+            hdd.get(shortAdress).setValue(tmp);
+
+            shortAdress++;
+        }
+
+        //baigia isvedima
+        cpu.HRG(0);
+    }
+
+    /**
+     * išorinėje atmintyje esantį žodį x adresu įrašo į steko viršūnę.
+     * @param memory
+     * @param hdd
+     * @param adress
+     */
+    public static void RDH(ObservableList<WordFX> memory,ObservableList<WordFX> hdd, String adress) {
+        CPU cpu = CPU.getInstance();
+
+        //gaunu adresa 10 tainiu o ne string(16liktaini)
+        int shortAdress = BaseConverter.converToDecimal(adress,BaseConverter.Hexadecimal);
+
+        cpu.IC(cpu.IC() +1 );
+
+        //jei kanalas uzimtas
+        if(cpu.HRG() == 1)
+            return;
+        //pradedamas isvedimas i stack
+        cpu.HRG(1);
+
+        //nuskaitau reiksme is hdd
+        String tmp = hdd.get( shortAdress).getValue();
+
+        StackCommands.PUS(memory,tmp);
+
+        //baigia isvedima
+        cpu.HRG(0);
+    }
+
+    /**
+     * steko viršūnėje esantį žodį įrašo į išorinę atmintį adresu x.
+     * @param memory
+     * @param hdd
+     * @param adress
+     */
+    public static void WRH(ObservableList<WordFX> memory,ObservableList<WordFX> hdd, String adress) {
+        CPU cpu = CPU.getInstance();
+
+        //gaunu adresa 10 tainiu o ne string(16liktaini)
+        int shortAdress = BaseConverter.converToDecimal(adress,BaseConverter.Hexadecimal);
+
+        cpu.IC(cpu.IC() +1 );
+
+        //jei kanalas uzimtas
+        if(cpu.HRG() == 1)
+            return;
+        //pradedamas isvedimas i hdd
+        cpu.HRG(1);
+
+        //nuskaitau reiksme is stack
+        String tmp = memory.get( cpu.SP()).getValue();
+
+        //i hdd adresu shortAdress idedu reiksme is stacko virsunes
+        hdd.get(shortAdress).setValue(tmp);
+
+        //baigia isvedima
+        cpu.HRG(0);
+
     }
 }

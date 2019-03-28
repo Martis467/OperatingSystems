@@ -201,18 +201,17 @@ public class CommandHandler {
                 IOCommand.P(vMemory,monitor,command);
                 break;
             case R:
-
-                break;
-            case READ:
+                //sukurti hdd objekta ir ideti mory vietoj hddMemory
+                //IOCommand.R(vMemory,hddMemory,command);
                 break;
             case RDH:
+                //IOCommand.RDH(vMemory,hddMemory,command);
                 break;
             case WRH:
+                //IOCommand.WRH(vMemory,hddMemory,command);
                 break;
             case STARTIO:
-
-                //nezinau dar kolkas kaip register perduot
-                //IOCommand.STARTIO(vMemory, register);
+                IOCommand.STARTIO(vMemory, command);
                 break;
         }
 

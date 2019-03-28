@@ -156,8 +156,6 @@ public class VMController implements Initializable {
 
         CodeTextBox.setText(codeSegment.substring(newLineIndex+1));
         RefreshRM();
-
-        MachineTextBox.setText("lol");
     }
 
 

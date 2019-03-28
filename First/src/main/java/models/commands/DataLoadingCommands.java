@@ -9,7 +9,7 @@ import utillities.BaseConverter;
 public class DataLoadingCommands {
 
     /**
-     * Inserts integer hex value to data segement
+     * Inserts integer hex value to data segment
      * @param value
      * @param memory
      */
@@ -20,7 +20,7 @@ public class DataLoadingCommands {
         cpu.IC(IC);
 
         //Check if the address are inbound with data segment
-        if (IC > 111){
+        if (IC > cpu.vmSegmentSize()-1){
             cpu.SI(Interrupt.ForbiddenMemoryAccess.toInt());
             return;
         }
@@ -29,7 +29,7 @@ public class DataLoadingCommands {
         if (!value.matches(BaseConverter.getHexRegex()))
             return;
 
-        memory.get(IC).setValue(Integer.parseInt(value, 16));
+        memory.get(IC).setValue(Short.parseShort(value, 16));
     }
 
     /**
@@ -44,7 +44,7 @@ public class DataLoadingCommands {
         cpu.IC(IC);
 
         //Check if the address are inbound with data segment
-        if (IC > 111){
+        if (IC > cpu.vmSegmentSize()-1){
             cpu.SI(Interrupt.ForbiddenMemoryAccess.toInt());
             return;
         }
@@ -67,7 +67,7 @@ public class DataLoadingCommands {
         cpu.IC(IC);
 
         //Check if the address are inbound with data segment
-        if (IC > 111){
+        if (IC > cpu.vmSegmentSize()-1){
             cpu.SI(Interrupt.ForbiddenMemoryAccess.toInt());
             return;
         }

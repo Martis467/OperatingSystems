@@ -55,7 +55,11 @@ public class CPU {
      * Get the maximum value the SP could have with the current Virutal machine
      * @return
      */
-    public static int getStackMaxValue() {return vmSize.getMaxVMAddress();}
+    public static short vmSize() {return (short)vmSize.getVmSize();}
+
+    public static short vmSegmentSize(){return (short)vmSize.getSegmentSize();}
+
+    public static short vmStackSize() {return (short)vmSize.getSegmentSize();}
 
     //Getters and setters
     public static int   IC() {return IC;}

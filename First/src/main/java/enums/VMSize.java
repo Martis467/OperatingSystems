@@ -1,5 +1,8 @@
 package enums;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum VMSize {
 
     /*
@@ -35,14 +38,29 @@ public enum VMSize {
     public int getSegmentSize() { return segmentSize; }
 
     /**
-     *
      * @return stack segment size
      */
     public int getStackSize() { return stackSize; }
 
     /**
-     * Maximum value that the stack may have
+     * @return virtual machine size
+     */
+    public int getVmSize() {return segmentSize * 2 + stackSize;}
+
+    /**
+     * Parses out a VMSize enum from a given vm string
+     * @param vm
      * @return
      */
-    public int getMaxVMAddress() { return segmentSize * 2 + stackSize - 1;}
+    public static VMSize getVMSize(String vm){
+        if (vm == null)
+            return null;
+
+        return findCommand(vm).orElse(null);
+    }
+
+    private static Optional<VMSize> findCommand(String vm) {
+        return Arrays.stream(values())
+                .filter(v -> vm.contains(v.toString())).findFirst();
+    }
 }

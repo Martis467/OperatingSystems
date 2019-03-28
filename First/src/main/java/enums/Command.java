@@ -97,4 +97,6 @@ public enum Command {
         command = command.trim();
         return command;
     }
+
+
 }

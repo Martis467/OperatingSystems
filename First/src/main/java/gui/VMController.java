@@ -15,7 +15,6 @@ import models.CPU;
 import models.WordFX;
 import models.commands.CommandHandler;
 
-import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -56,7 +55,7 @@ public class VMController implements Initializable {
     @FXML
     private TextArea CodeTextBox;
     @FXML
-    private TextArea MachineTextBox;
+    private TextArea MonitorTextBox;
 
     //endregion
 
@@ -73,9 +72,10 @@ public class VMController implements Initializable {
 
     }
 
-    public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory, int vmSize) {
+    public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory) {
 
         CPU cpu = CPU.getInstance();
+        short vmSize = cpu.vmSize();
         //Match real memory
         this.realMemory.addAll(vMemory);
         InitClientMemory();
@@ -90,6 +90,7 @@ public class VMController implements Initializable {
         //Set CPU values
         cpu.SP(vmSize - 1);
 
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
     }
 
     public void DSreadAll(ActionEvent actionEvent) {
@@ -100,7 +101,6 @@ public class VMController implements Initializable {
 
         String[] commands = dataSegment.split("\n");
 
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         for (String command : commands) {
             commandHandler.handleCommand(command);
         }
@@ -118,8 +118,6 @@ public class VMController implements Initializable {
         int newLineIndex = dataSegment.indexOf("\n");
         String singleCommand = dataSegment.substring(0, newLineIndex);
 
-        //commandHandler = new CommandHandler(clientMemory, supervizorMemory);
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
         DataTextBox.setText(dataSegment.substring(newLineIndex+1));
@@ -133,13 +131,8 @@ public class VMController implements Initializable {
             return;
 
         String[] commands = codeSegment.split("\n");
+        commandHandler.AddCommandsToMemory(commands);
 
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
-        for (String command :
-                commands) {
-            commandHandler.handleCommand(command);
-        }
-        //DataTextBox.clear();
         CodeTextBox.setText("");
         RefreshRM();
     }
@@ -154,10 +147,9 @@ public class VMController implements Initializable {
         int newLineIndex = codeSegment.indexOf("\n");
         String singleCommand = codeSegment.substring(0, newLineIndex);
 
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
-        CodeTextBox.setText(codeSegment.substring(newLineIndex));
+        CodeTextBox.setText(codeSegment.substring(newLineIndex+1));
         RefreshRM();
     }
 
@@ -190,8 +182,8 @@ public class VMController implements Initializable {
 
     private void InitClientMemory() {
 
-        for (int i = 0; i < realMemory.size(); i++){
-            clientMemory.add(new WordFX(i, 0));
+        for (short i = 0; i < realMemory.size(); i++){
+            clientMemory.add(new WordFX(i, (short)0));
         }
     }
 
@@ -212,4 +204,7 @@ public class VMController implements Initializable {
     }
 
 
+    public void ExecuteCommands(ActionEvent actionEvent) {
+
+    }
 }

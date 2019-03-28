@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="ParentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VMController">
+<BorderPane fx:id="ParentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VMController">
    <right>
       <VBox prefHeight="511.0" prefWidth="218.0" BorderPane.alignment="CENTER">
          <children>
@@ -90,9 +90,10 @@
             <AnchorPane prefHeight="382.0" prefWidth="275.0">
                <children>
                   <Button layoutX="27.0" layoutY="14.0" mnemonicParsing="false" onAction="#DSreadAll" prefHeight="47.0" prefWidth="88.0" text="DS: Read all" textAlignment="CENTER" wrapText="true" />
-                  <Button layoutX="139.0" layoutY="82.0" mnemonicParsing="false" onAction="#CSreadAll" prefHeight="47.0" prefWidth="88.0" text="CS: Read all" textAlignment="CENTER" wrapText="true" />
-                  <Button layoutX="27.0" layoutY="82.0" mnemonicParsing="false" onAction="#CSreadOne" prefHeight="47.0" prefWidth="88.0" text="CS: Read line" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="138.0" layoutY="84.0" mnemonicParsing="false" onAction="#CSreadAll" prefHeight="47.0" prefWidth="88.0" text="CS: Read all" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="27.0" layoutY="84.0" mnemonicParsing="false" onAction="#CSreadOne" prefHeight="47.0" prefWidth="88.0" text="CS: Read line" textAlignment="CENTER" wrapText="true" />
                   <Button layoutX="138.0" layoutY="14.0" mnemonicParsing="false" onAction="#DSreadOne" prefHeight="47.0" prefWidth="90.0" text="DS: Read line" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="173.0" layoutY="200.0" mnemonicParsing="false" onAction="#ExecuteCommands" prefHeight="47.0" prefWidth="88.0" text="Execute commands" textAlignment="CENTER" wrapText="true" />
                </children>
             </AnchorPane>
          </children>

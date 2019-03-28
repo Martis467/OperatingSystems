@@ -14,26 +14,26 @@ public class ComparisonCommand {
         int SP = cpu.SP();
 
         //If our stack has only one variable or none, we don't do anything
-        if (SP+1 >= memory.size())
+        if (SP >= cpu.vmSize()-1)
             return;
 
         //Get first value and set head to zero
-        int value1 = memory.get(SP).getValueInt();
+        short value1 = memory.get(SP).getValueShort();
 
         //Get second value
-        int value2 = memory.get(SP+1).getValueInt();
+        short value2 = memory.get(SP+1).getValueShort();
 
         //Decrease SP
         cpu.SP(SP - 1);
 
         /*
          * Compare, increase SP value and add the result to [SP-1]:
-         * if [SP - 1] > [SP] = 1
-         * if [SP - 1] < [SP] = 2
+         * if [SP + 1] > [SP] = 1
+         * if [SP + 1] < [SP] = 2
          * else 0
          */
 
-        int result = 0;
+        short result = 0;
 
         if( value2 > value1) result = 1;
         if( value2 < value1) result = 2;

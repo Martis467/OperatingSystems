@@ -1,5 +1,6 @@
 package commandTests;
 
+import enums.VMSize;
 import javafx.collections.ObservableList;
 import models.CPU;
 import models.WordFX;
@@ -8,6 +9,17 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class StackTests {
+
+    private CPU cpu;
+    private VMSize vmSize;
+
+    public  void initValues() {
+        vmSize = VMSize.Big;
+        cpu = CPU.getInstance();
+        cpu.setVM(vmSize);
+        cpu.SP(vmSize.getVmSize()-1);
+
+    }
 
     /* Live test
     DS:
@@ -29,10 +41,8 @@ PT 10
      */
     @Test
     public void testStackCommands(){
-        CPU cpu = CPU.getInstance();
-        cpu.SP(255);
-
-        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(256);
+        initValues();
+        ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
         TestingUtilities.loadRandomValuesToDS(vRam, 5);
 

@@ -7,6 +7,7 @@ import enums.Interrupt;
 import models.WordFX;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CommandHandler {
 
@@ -63,6 +64,26 @@ public class CommandHandler {
         dataLoading.add(Command.DW);
         dataLoading.add(Command.DN);
         dataLoading.add(Command.DD);
+    }
+
+    /**
+     * Adds commands to CS for IC jumps
+     * @param commands
+     */
+    public void AddCommandsToMemory(String[] commands) {
+        CPU cpu = CPU.getInstance();
+        int CS = cpu.vmSegmentSize();
+
+        //To iterate with ease turn this array into an arraylist
+        ArrayList<String> commandArrayList = new ArrayList<>(Arrays.asList(commands));
+
+        for (int i = 0; i < commandArrayList.size(); i++){
+            Command parsedCommand = Command.getCommand(commandArrayList.get(i));
+            String commandValue = parsedCommand.stripCommand(commandArrayList.get(i));
+
+            vMemory.get(CS + i).setValue(parsedCommand.getCode() + commandValue);
+        }
+
     }
 
     /**
@@ -185,5 +206,4 @@ public class CommandHandler {
                     break;
         }
     }
-
 }

@@ -118,7 +118,6 @@ public class VMController implements Initializable {
         int newLineIndex = dataSegment.indexOf("\n");
         String singleCommand = dataSegment.substring(0, newLineIndex);
 
-        //commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
@@ -135,12 +134,10 @@ public class VMController implements Initializable {
         String[] commands = codeSegment.split("\n");
 
         commandHandler = new CommandHandler(clientMemory, supervizorMemory);
-        for (String command :
-                commands) {
+        for (String command : commands) {
             commandHandler.handleCommand(command);
         }
-        //DataTextBox.clear();
-        DataTextBox.setText("");
+        CodeTextBox.setText("");
         RefreshRM();
     }
 
@@ -157,8 +154,10 @@ public class VMController implements Initializable {
         commandHandler = new CommandHandler(clientMemory, supervizorMemory);
         commandHandler.handleCommand(singleCommand);
 
-        CodeTextBox.setText(codeSegment.substring(newLineIndex));
+        CodeTextBox.setText(codeSegment.substring(newLineIndex+1));
         RefreshRM();
+
+        MachineTextBox.setText("lol");
     }
 
 

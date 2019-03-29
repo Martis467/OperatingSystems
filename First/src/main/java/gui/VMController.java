@@ -54,8 +54,6 @@ public class VMController implements Initializable {
     private TextArea DataTextBox;
     @FXML
     private TextArea CodeTextBox;
-    //@FXML
-    //private TextArea MonitorTextBox;
     @FXML
     private TextArea MonitorTextBox;
 

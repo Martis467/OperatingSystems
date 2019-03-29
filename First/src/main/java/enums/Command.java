@@ -79,6 +79,22 @@ public enum Command {
                 .filter(com -> command.contains(com.toString())).findFirst();
     }
 
+    public static String getCommandString(String command){
+        if (command == null)
+            return null;
+
+        Command com = findCommandByHex(command).orElse(null);
+
+        if (com == null) return "";
+
+        return com.toString();
+    }
+
+    private static Optional<Command> findCommandByHex(String command) {
+        return Arrays.stream(values())
+                .filter(c -> command.contains(c.hexCode)).findFirst();
+    }
+
     public String getCode() {
         return hexCode;
     }

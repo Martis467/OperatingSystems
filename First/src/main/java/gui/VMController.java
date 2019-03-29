@@ -213,6 +213,6 @@ public class VMController implements Initializable {
 
 
     public void ExecuteCommands(ActionEvent actionEvent) {
-
+        commandHandler.executeCommandsFromMemory();
     }
 }

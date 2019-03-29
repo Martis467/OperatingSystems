@@ -21,7 +21,7 @@ public class StackCommands {
 
         //Current DS size is 112,
         //We shouldn't add anything above that
-        if (dsAddress > cpu.vmStackSize()-1)
+        if (dsAddress > cpu.vmSegmentSize()-1)
             return;
 
         String dsValue = memory.get(dsAddress).getValue();
@@ -54,7 +54,7 @@ public class StackCommands {
 
         //Current DS size is 112,
         //We shouldn't add anything above that
-        if (dsAddress > cpu.vmStackSize()-1)
+        if (dsAddress > cpu.vmSegmentSize()-1)
             return;
 
         String value = memory.get(SP).getValue();
@@ -77,7 +77,7 @@ public class StackCommands {
         if (!value.matches(BaseConverter.getHexRegex()))
             return;
 
-        String stackHead = memory.get(cpu.vmStackSize()-1).getValue();
+        String stackHead = memory.get(cpu.vmSize()-1).getValue();
 
         //If the first stack element is zeros
         //We don't need to increase SP because our head is empty
@@ -108,7 +108,7 @@ public class StackCommands {
         if (value.length() > 2)
             return;
 
-        String stackHead = memory.get(cpu.vmStackSize()-1).getValue();
+        String stackHead = memory.get(cpu.vmSize()-1).getValue();
 
         //If the first stack element is zeros
         //We don't need to increase SP because our head is empty
@@ -129,6 +129,13 @@ public class StackCommands {
         //Increment instruction counter
         cpu.IC(cpu.IC() + 1);
         int SP = cpu.SP();
+
+        //If this is the last stack element
+        //Don't reduce stack
+        if(SP == cpu.vmSize() - 1){
+            memory.get(SP).setValue((short)0);
+            return;
+        }
 
         memory.get(SP).setValue((short)0);
         cpu.SP(SP + 1);

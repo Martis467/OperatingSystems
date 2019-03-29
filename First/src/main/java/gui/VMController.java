@@ -66,12 +66,13 @@ public class VMController implements Initializable {
     private ObservableList<WordFX> realMemory = FXCollections.observableArrayList();
     private ObservableList<WordFX> clientMemory = FXCollections.observableArrayList();
     private ObservableList<WordFX> supervizorMemory = FXCollections.observableArrayList();
+    private ObservableList<WordFX> hardDriveMemory = FXCollections.observableArrayList();
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         InitColumns();
-
+        InitHardDrive();
     }
 
     public void InitData(List vMemory, ObservableList<WordFX> supervizorMemory) {
@@ -179,6 +180,14 @@ public class VMController implements Initializable {
             dataSegment += '\n';
 
         return dataSegment;
+    }
+
+    private void InitHardDrive() {
+        for(int i = 0; i < 256; i++){
+            hardDriveMemory.add(new WordFX(i, 0));
+        }
+
+        HardDriveTable.getItems().setAll(hardDriveMemory);
     }
 
     private void InitClientMemory() {

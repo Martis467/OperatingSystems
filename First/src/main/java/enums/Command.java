@@ -21,6 +21,7 @@ public enum Command {
     PUN("82", 4),
     PUS("83", 4),
     POP("84", 4),
+    PN("85",4),
 
     //Control
     JP("F0", 4),

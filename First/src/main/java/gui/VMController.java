@@ -93,7 +93,7 @@ public class VMController implements Initializable {
         //Set CPU values
         cpu.SP(vmSize - 1);
 
-        commandHandler = new CommandHandler(clientMemory, supervizorMemory, MonitorTextBox);
+        commandHandler = new CommandHandler(clientMemory, supervizorMemory, MonitorTextBox, hardDriveMemory);
     }
 
     public void DSreadAll(ActionEvent actionEvent) {

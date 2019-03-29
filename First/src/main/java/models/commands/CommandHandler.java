@@ -22,12 +22,14 @@ public class CommandHandler {
 
     private ObservableList<WordFX> vMemory;
     private ObservableList<WordFX> supervizorMemory;
+    private ObservableList<WordFX> hdd;
     private TextArea monitor;
 
-    public CommandHandler(ObservableList<WordFX> vMemory, ObservableList<WordFX> supervisorMemory, TextArea monitor){
+    public CommandHandler(ObservableList<WordFX> vMemory, ObservableList<WordFX> supervisorMemory, TextArea monitor, ObservableList<WordFX> hdd){
         this.vMemory = vMemory;
         this.supervizorMemory = supervisorMemory;
         this.monitor = monitor;
+        this.hdd = hdd;
 
         //Load all commands
         arithmeticCommands = new ArrayList<>();
@@ -46,6 +48,7 @@ public class CommandHandler {
         stackCommands.add(Command.PUN);
         stackCommands.add(Command.PUS);
         stackCommands.add(Command.POP);
+        stackCommands.add(Command.PN);
 
         controlCommands = new ArrayList<>();
         controlCommands.add(Command.JP);
@@ -181,6 +184,9 @@ public class CommandHandler {
             case POP:
                 StackCommands.POP(vMemory);
                 break;
+            case PN:
+                StackCommands.PN(vMemory);
+                break;
             default:
 
         }
@@ -203,7 +209,7 @@ public class CommandHandler {
                 break;
             case R:
                 //sukurti hdd objekta ir ideti mory vietoj hddMemory
-                //IOCommand.R(vMemory,hddMemory,command);
+                IOCommand.R(vMemory,hdd,command);
                 break;
             case RDH:
                 //IOCommand.RDH(vMemory,hddMemory,command);

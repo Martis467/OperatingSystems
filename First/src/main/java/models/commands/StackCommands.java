@@ -1,5 +1,6 @@
 package models.commands;
 
+import enums.Interrupt;
 import javafx.collections.ObservableList;
 import models.CPU;
 import models.WordFX;
@@ -132,12 +133,40 @@ public class StackCommands {
 
         memory.get(SP).setValue( (short) 0);
 
-        if(cpu.SP() == memory.size()) {
+        if(cpu.SP() == cpu.vmStackSize()-1) {
             cpu.SP(SP );
+            return;
         }
         else {
             cpu.SP(SP );
         }
+
+    }
+
+    /**
+     * i steko viršūnę patalpina simboli „\n“.
+     * @param memory
+     */
+    public static void PN(ObservableList<WordFX> memory) {
+        CPU cpu = CPU.getInstance();
+
+        //Increment instruction counter
+        cpu.IC(cpu.IC() + 1);
+        int SP = cpu.SP();
+
+        String stackHead = memory.get(cpu.vmStackSize()-1).getValue();
+
+        //If the first stack element is zeros
+        //We don't need to increase SP because our head is empty
+        //We just have to add the element
+        if((stackHead.equals("0000"))) {
+            memory.get(SP).setValue("\\n");
+            return;
+        }
+
+        SP--;
+        memory.get(SP).setValue("\\n");
+        cpu.SP(SP);
 
     }
 }

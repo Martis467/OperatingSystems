@@ -256,8 +256,8 @@ public class CommandHandler {
         }
     }
 
-    private String toStringCommand(String commandHexcode) {
-        //Command com = Command.find
-        return "";
+    private String toStringCommand(String commandHexCode) {
+        String com = Command.getCommandString(commandHexCode);
+        return com + " " + commandHexCode.substring(2);
     }
 }

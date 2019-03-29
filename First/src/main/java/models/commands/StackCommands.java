@@ -22,7 +22,7 @@ public class StackCommands {
 
         //Current DS size is 112,
         //We shouldn't add anything above that
-        if (dsAddress > cpu.vmSize()-1)
+        if (dsAddress > cpu.vmSegmentSize()-1)
             return;
 
         String dsValue = memory.get(dsAddress).getValue();
@@ -55,7 +55,7 @@ public class StackCommands {
 
         //Current DS size is 112,
         //We shouldn't add anything above that
-        if (dsAddress > cpu.vmSize()-1)
+        if (dsAddress > cpu.vmSegmentSize()-1)
             return;
 
         String value = memory.get(SP).getValue();
@@ -131,8 +131,10 @@ public class StackCommands {
         cpu.IC(cpu.IC() + 1);
         int SP = cpu.SP();
 
-        if(cpu.SP() == cpu.vmSize()-1) {
-            memory.get(SP).setValue((short) 0);
+        //If this is the last stack element
+        //Don't reduce stack
+        if(SP == cpu.vmSize() - 1){
+            memory.get(SP).setValue((short)0);
             return;
         }
 

@@ -1,7 +1,6 @@
 package models.commands;
 
 import enums.Command;
-import gui.VMController;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextArea;
 import models.CPU;
@@ -90,7 +89,20 @@ public class CommandHandler {
 
             vMemory.get(CS + i).setValue(parsedCommand.getCode() + commandValue);
         }
+    }
 
+    /**
+     * Executes commands that are in CS
+     */
+    public void executeCommandsFromMemory(){
+        CPU cpu = CPU.getInstance();
+        int CS = cpu.vmSegmentSize();
+        int csSize = 2*CS - 1;
+
+        for (int i = CS; i < csSize; i++ ){
+            String command = vMemory.get(i).getValue();
+            handleCommand(toStringCommand(command));
+        }
     }
 
     /**
@@ -242,5 +254,10 @@ public class CommandHandler {
             default:
                     break;
         }
+    }
+
+    private String toStringCommand(String commandHexcode) {
+        //Command com = Command.find
+        return "";
     }
 }

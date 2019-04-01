@@ -33,11 +33,11 @@ public enum Command {
     // I/O
     PRTS("50", 4),
     PRTN("51", 4),
-    P("11", 4),
-    R("12", 4),
+    PB("11", 4),
+    RHD("12", 4),
     READ("52", 4),
-    RDH("20", 4),
-    WRH("51", 4),
+    HDD("20", 4),
+    WHD("51", 4),
     STARTIO("00", 4),
 
     //Data loading

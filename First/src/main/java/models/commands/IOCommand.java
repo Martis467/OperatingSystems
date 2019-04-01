@@ -42,17 +42,36 @@ public class IOCommand {
     public static void STARTIO(ObservableList<WordFX> memory, String register) {
         CPU cpu = CPU.getInstance();
 
-        if(register == "ORG")
-            memory.get( cpu.SP()).setValue( (short) cpu.ORG());
+        String stackHead = memory.get(cpu.vmSize()-1).getValue();
 
-        if(register == "HRG")
-            memory.get( cpu.SP()).setValue( (short) cpu.HRG());
+        //If the first stack element is zeros
+        //We don't need to increase SP because our head is empty
+        //We just have to add the element
+        if((stackHead.equals("0000")) && cpu.SP() == cpu.vmSize()-1 ) {
 
-        if(register == "IRG")
-            memory.get( cpu.SP()).setValue( (short) cpu.IRG());
+            if(register == "ORG")
+                memory.get( cpu.SP()).setValue( BaseConverter.convertValue(cpu.ORG(), BaseConverter.Hexadecimal));
+
+            if(register.equals("HRG") )
+                memory.get(cpu.SP()).setValue(BaseConverter.convertValue(cpu.HRG(), BaseConverter.Hexadecimal));
+
+            if(register == "IRG")
+                memory.get( cpu.SP()).setValue( BaseConverter.convertValue(cpu.IRG(), BaseConverter.Hexadecimal));
+            return;
+        }
 
         //sumazinu sp nes idejau nauja reiksme
         cpu.SP(cpu.SP() -1);
+
+        if(register == "ORG")
+            memory.get( cpu.SP()).setValue( BaseConverter.convertValue(cpu.ORG(), BaseConverter.Hexadecimal));
+
+        if(register.equals("HRG") )
+            memory.get(cpu.SP()).setValue(BaseConverter.convertValue(cpu.HRG(), BaseConverter.Hexadecimal));
+
+        if(register == "IRG")
+            memory.get( cpu.SP()).setValue( BaseConverter.convertValue(cpu.IRG(), BaseConverter.Hexadecimal));
+
 
         cpu.IC(cpu.IC() +1 );
 
@@ -89,12 +108,12 @@ public class IOCommand {
     }
 
     /**
-     * į išvedimo įrenginį išveda x numeriu nurodyto atminties srities
+     * į išvedimo įrenginį(monitoriu) išveda x numeriu nurodyto atminties srities
      * bloko nuo pradžios iki simbolio \n.
      * @param memory
      * @param monitor
      */
-    public static void P( ObservableList<WordFX> memory,TextArea monitor, String adress) {
+    public static void PB( ObservableList<WordFX> memory,TextArea monitor, String adress) {
         CPU cpu = CPU.getInstance();
         int shortAdress = BaseConverter.converToDecimal(adress,BaseConverter.Hexadecimal);
 
@@ -103,6 +122,8 @@ public class IOCommand {
         //jei kanalas uzimtas
         if(cpu.ORG() == 1)
             return;
+
+        System.out.println(adress);
         //pradedamas isvedimas
         cpu.ORG(1);
 
@@ -125,7 +146,12 @@ public class IOCommand {
      * @param hdd
      * @param adress
      */
-    public static void R(ObservableList<WordFX> memory,ObservableList<WordFX> hdd, String adress) {
+    //pvz:
+    //PUSA
+    //PUSB
+    //PN
+    //R0000
+    public static void RHD(ObservableList<WordFX> memory,ObservableList<WordFX> hdd, String adress) {
         CPU cpu = CPU.getInstance();
 
         //gaunu adresa 10 tainiu o ne string
@@ -141,11 +167,19 @@ public class IOCommand {
 
         String tmp = "";
 
-        while( !tmp.equals("\\n")) {
+        int spOld = cpu.SP();
+        int spNew = 255;//rodo i pacia steko pradzia //ff cia
+
+        while( true) {
             //nuskaitau reiksme is stack
-            tmp = memory.get( shortAdress).getValue();
-            //padidnu sp reiksme
-            cpu.SP( cpu.SP()+1);
+            tmp = memory.get( spNew).getValue();
+
+            if(tmp.equals("\\n")) {
+                break;
+            }
+
+            //padidnu sp reiksme (einu i steka aukstyn ir renku reiksmes
+            spNew--;
             //irasau i hdd
             hdd.get(shortAdress).setValue(tmp);
 
@@ -157,12 +191,12 @@ public class IOCommand {
     }
 
     /**
-     * išorinėje atmintyje esantį žodį x adresu įrašo į steko viršūnę.
+     * išorinėje atmintyje(hdd) esantį žodį x adresu, įrašo į steko viršūnę.
      * @param memory
      * @param hdd
      * @param adress
      */
-    public static void RDH(ObservableList<WordFX> memory,ObservableList<WordFX> hdd, String adress) {
+    public static void HDD(ObservableList<WordFX> memory,ObservableList<WordFX> hdd, String adress) {
         CPU cpu = CPU.getInstance();
 
         //gaunu adresa 10 tainiu o ne string(16liktaini)
@@ -191,7 +225,7 @@ public class IOCommand {
      * @param hdd
      * @param adress
      */
-    public static void WRH(ObservableList<WordFX> memory,ObservableList<WordFX> hdd, String adress) {
+    public static void WHD(ObservableList<WordFX> memory,ObservableList<WordFX> hdd, String adress) {
         CPU cpu = CPU.getInstance();
 
         //gaunu adresa 10 tainiu o ne string(16liktaini)

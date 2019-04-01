@@ -59,11 +59,11 @@ public class CommandHandler {
         IOCommands = new ArrayList<>();
         IOCommands.add(Command.PRTS);
         IOCommands.add(Command.PRTN);
-        IOCommands.add(Command.P);
-        IOCommands.add(Command.R);
+        IOCommands.add(Command.PB);
+        IOCommands.add(Command.RHD);
         IOCommands.add(Command.READ);
-        IOCommands.add(Command.RDH);
-        IOCommands.add(Command.WRH);
+        IOCommands.add(Command.HDD);
+        IOCommands.add(Command.WHD);
         IOCommands.add(Command.STARTIO);
 
         dataLoading = new ArrayList<>();
@@ -216,21 +216,22 @@ public class CommandHandler {
             case PRTN:
                 IOCommand.PRTN(vMemory,monitor);
                 break;
-            case P:
-                IOCommand.P(vMemory,monitor,command);
+            case PB:
+                IOCommand.PB(vMemory,monitor,command);
                 break;
-            case R:
-                //sukurti hdd objekta ir ideti mory vietoj hddMemory
-                IOCommand.R(vMemory,hdd,command);
+            case HDD:
+                //veikia
+                IOCommand.HDD(vMemory,hdd,command);
                 break;
-            case RDH:
-                //IOCommand.RDH(vMemory,hddMemory,command);
-                break;
-            case WRH:
-                //IOCommand.WRH(vMemory,hddMemory,command);
+            case WHD:
+                IOCommand.WHD(vMemory,hdd,command);
                 break;
             case STARTIO:
                 IOCommand.STARTIO(vMemory, command);
+                break;
+            case RHD:
+                //veikia
+                IOCommand.RHD(vMemory,hdd,command);
                 break;
         }
 

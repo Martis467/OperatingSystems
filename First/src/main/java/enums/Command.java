@@ -100,10 +100,6 @@ public enum Command {
         return hexCode;
     }
 
-    public int getDecimal() {
-        return Integer.valueOf(hexCode, 16);
-    }
-
     /**
      * Strips the command string
      * Example: PUS XD or PUSXD -> XD

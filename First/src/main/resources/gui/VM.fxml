@@ -93,6 +93,7 @@
                   <Button layoutX="138.0" layoutY="84.0" mnemonicParsing="false" onAction="#CSreadAll" prefHeight="47.0" prefWidth="88.0" text="CS: Read all" textAlignment="CENTER" wrapText="true" />
                   <Button layoutX="27.0" layoutY="84.0" mnemonicParsing="false" onAction="#CSreadOne" prefHeight="47.0" prefWidth="88.0" text="CS: Read line" textAlignment="CENTER" wrapText="true" />
                   <Button layoutX="138.0" layoutY="14.0" mnemonicParsing="false" onAction="#DSreadOne" prefHeight="47.0" prefWidth="90.0" text="DS: Read line" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="73.0" layoutY="200.0" mnemonicParsing="false" onAction="#ReadFile" prefHeight="47.0" prefWidth="88.0" text="loadfromfile" textAlignment="CENTER" wrapText="true" />
                   <Button layoutX="173.0" layoutY="200.0" mnemonicParsing="false" onAction="#ExecuteCommands" prefHeight="47.0" prefWidth="88.0" text="Execute commands" textAlignment="CENTER" wrapText="true" />
                </children>
             </AnchorPane>

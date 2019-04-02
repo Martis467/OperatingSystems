@@ -1,5 +1,6 @@
 package gui;
 
+import enums.Command;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +16,11 @@ import models.CPU;
 import models.WordFX;
 import models.commands.CommandHandler;
 
+import java.lang.reflect.Array;
+import java.nio.file.*;;
+
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -214,5 +219,80 @@ public class VMController implements Initializable {
 
     public void ExecuteCommands(ActionEvent actionEvent) {
         commandHandler.executeCommandsFromMemory();
+    }
+
+
+
+    public void ReadFile(ActionEvent actionEvent) {
+        String data = readFileAsString("C:\\Users\\Vytas\\Desktop\\os\\OSbendras\\OperatingSystems\\First\\textFiles\\1.txt");
+        //nuskaitytas visas failas kaip stringas
+        System.out.println(data+ '\n');
+
+        String[] trimmed = data.split("\r\n");
+
+        //keliu reiksmes i datasegment kol sutinku Codesegment
+        //String[] trimmed2 = new String[trimmed.length-1];
+        //System.arraycopy(trimmed,1,trimmed2,0,trimmed.length-1);
+
+        ArrayList<String> temp = new ArrayList<>();
+        ArrayList<String> forWork = new ArrayList<>();
+
+        //sudedu trimed comandas i aray lista kad lengviau dirbti
+        for(String element: trimmed) {
+            temp.add(element);
+        }
+
+        //removes dataseg
+        temp.remove(0);
+
+        //sudeda reiksmes iki codeseg ir trina jau panaudotas
+        for(String element: temp) {
+
+            if(element.equals("CODESEG"))
+               break;
+
+            forWork.add(element);
+            //temp.remove(element);
+        }
+
+        //istrina is temp jau panaudotas komandas
+        temp.removeAll(forWork);
+
+        String[] DataCommand = new String[forWork.size()];
+        DataCommand = forWork.toArray(DataCommand);
+
+        //dataseg komandas atpazista ir sudeda
+        commandHandler.AddCommandsToMemory(DataCommand);
+
+        //istrina codeseg
+        temp.remove(0);
+        forWork.clear();
+
+        //sudeda reiksmes iki STOP
+        for(String element: temp) {
+
+            if(element.equals("STOP"))
+                break;
+
+            forWork.add(element);
+        }
+
+        // i atminti sudeda codeseg komandas
+        String[] DataCommand2 = new String[forWork.size()];
+        DataCommand2 = forWork.toArray(DataCommand2);
+        commandHandler.AddCommandsToMemory(DataCommand2);
+    }
+
+    public static String readFileAsString(String fileName) {
+        try{
+            String data = "";
+            data = new String(Files.readAllBytes(Paths.get(fileName)));
+            return data;
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Reading from file didnt work";
     }
 }

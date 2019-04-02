@@ -93,7 +93,6 @@ public class CommandHandler {
         int csSize = 2*CS - 1;
 
         ArrayList<String> commands = new ArrayList<>();
-        commands.addAll();
     }
 
     /**

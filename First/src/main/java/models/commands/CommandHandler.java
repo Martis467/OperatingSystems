@@ -85,17 +85,66 @@ public class CommandHandler {
     }
 
     /**
-     * Executes commands that are in CS
+     * Executes commands that are in DS and CS
      */
     public void executeCommandsFromMemory(){
         CPU cpu = CPU.getInstance();
         int CS = cpu.vmSegmentSize();
         int csSize = 2*CS - 1;
 
-        for (int i = CS; i < csSize; i++ ){
-            String command = vMemory.get(i).getValue();
-            handleCommand(toStringCommand(command));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.addAll();
+    }
+
+    /**
+     * Fetches commands from memory arraylist
+     * @param shift - shift the beginning of string
+     * @return
+     */
+    private ArrayList<String> getCommandsFromMemory(int shift) {
+        ArrayList<String> commands = new ArrayList<>();
+
+        String command;
+        int i = shift;
+
+        // iterate until we find
+        while ( !(command = vMemory.get(shift).getValue()).equals("0000")){
+            //
         }
+
+        return commands;
+    }
+
+    /**
+     * Parses commands from txt file
+     * @param command
+     */
+    public void parseCommandsFromString(String command) {
+        CPU cpu = CPU.getInstance();
+
+        //Parse data segment
+        int dsBeginning = command.indexOf('{') + 1;
+        int dsEnding = command.indexOf('}');
+        String dataSegment = command.substring(dsBeginning, dsEnding);
+
+        //Parse data segment commands
+        String[] dataSegmentCommands = dataSegment.split("\r\n");
+        ArrayList<String> dsc = new ArrayList<>(Arrays.asList(dataSegmentCommands));
+
+        //Get the remaining string from ds
+        command = command.substring(dsEnding);
+
+        //Parse code segment
+        int csBeginning = command.indexOf('{') +1;
+        String codeSegment = command.substring(csBeginning);
+
+        //Parse code segment commands
+        String[] codeSegmentCommands = codeSegment.split("\r\n");
+        ArrayList<String> csc = new ArrayList<>(Arrays.asList(codeSegmentCommands));
+
+        //Parse commands
+        FillSegmentCommands(dsc, 0);
+        FillSegmentCommands(csc, cpu.vmSegmentSize());
     }
 
     /**
@@ -253,34 +302,6 @@ public class CommandHandler {
     private String toStringCommand(String commandHexCode) {
         String com = Command.getCommandString(commandHexCode);
         return com + " " + commandHexCode.substring(2);
-    }
-
-    public void parseCommandsFromString(String command) {
-        CPU cpu = CPU.getInstance();
-
-        //Parse data segment
-        int dsBeginning = command.indexOf('{') + 1;
-        int dsEnding = command.indexOf('}');
-        String dataSegment = command.substring(dsBeginning, dsEnding);
-
-        //Parse data segment commands
-        String[] dataSegmentCommands = dataSegment.split("\r\n");
-        ArrayList<String> dsc = new ArrayList<>(Arrays.asList(dataSegmentCommands));
-
-        //Get the remaining string from ds
-        command = command.substring(dsEnding);
-
-        //Parse code segment
-        int csBeginning = command.indexOf('{') +1;
-        String codeSegment = command.substring(csBeginning);
-
-        //Parse code segment commands
-        String[] codeSegmentCommands = codeSegment.split("\r\n");
-        ArrayList<String> csc = new ArrayList<>(Arrays.asList(codeSegmentCommands));
-
-        //Parse commands
-        FillSegmentCommands(dsc, 0);
-        FillSegmentCommands(csc, cpu.vmSegmentSize());
     }
 
     /**

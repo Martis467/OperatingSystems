@@ -261,4 +261,19 @@ public class CommandHandler {
         String com = Command.getCommandString(commandHexCode);
         return com + " " + commandHexCode.substring(2);
     }
+
+    public void parseCommandsFromString(String command) {
+        //Parse data segment
+        int dsBeginning = command.indexOf('{');
+        int dsEnding = command.indexOf('}');
+        String dataSegment = command.substring(dsBeginning, dsEnding);
+
+        //Get the remaining string from ds
+        command = command.substring(dsEnding);
+        int csBeginning = command.indexOf('{');
+        int csEnding = command.indexOf('}');
+
+        String codeSegment = command.substring(csBeginning, csEnding);
+
+    }
 }

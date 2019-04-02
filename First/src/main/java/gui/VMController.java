@@ -5,17 +5,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import models.CPU;
 import models.WordFX;
 import models.commands.CommandHandler;
+import utillities.JFXUtillities;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -154,6 +156,34 @@ public class VMController implements Initializable {
         RefreshRM();
     }
 
+    public void ExecuteCommands(ActionEvent actionEvent) {
+        commandHandler.executeCommandsFromMemory();
+    }
+
+    public void LoadFromFile(ActionEvent actionEvent) {
+        try {
+            //Configure file chooser
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Choose export location...");
+
+            //Accept only txt files
+            chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+
+            File defaultDirectory = new File(System.getProperty("user.dir"));
+            chooser.setInitialDirectory(defaultDirectory);
+
+            //Get the file and turn it to a byte array
+            File selectedFile = chooser.showOpenDialog(ParentPane.getScene().getWindow());
+            byte[] fileBytes = Files.readAllBytes(selectedFile.toPath());
+
+            //Parse string
+            commandHandler.parseCommandsFromString(new String(fileBytes));
+
+        } catch (Exception e){
+            JFXUtillities.showAlert("Bad file", "File not selected or wrong file selected", Alert.AlertType.WARNING);
+        }
+    }
+
     private String getCodeSegment() {
         String codeSegment = CodeTextBox.getText();
 
@@ -211,8 +241,4 @@ public class VMController implements Initializable {
         }
     }
 
-
-    public void ExecuteCommands(ActionEvent actionEvent) {
-        commandHandler.executeCommandsFromMemory();
-    }
 }

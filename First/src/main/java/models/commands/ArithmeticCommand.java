@@ -99,7 +99,6 @@ public class ArithmeticCommand {
             default:
                     break;
         }
-
     }
 
     private enum Operation{

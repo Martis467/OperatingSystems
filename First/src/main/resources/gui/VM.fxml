@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="ParentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="511.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VMController">
+<BorderPane fx:id="ParentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VMController">
    <right>
       <VBox prefHeight="511.0" prefWidth="218.0" BorderPane.alignment="CENTER">
          <children>
@@ -23,13 +23,13 @@
                   <Insets left="5.0" top="5.0" />
                </VBox.margin>
             </Text>
-              <TableView fx:id="ClientMemoryTable" prefHeight="501.0" prefWidth="218.0">
+              <TableView fx:id="ClientMemoryTable" prefHeight="486.0" prefWidth="218.0">
                   <columns>
                       <TableColumn fx:id="ClientAddressColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Address" />
                       <TableColumn fx:id="ClientValueColumn" maxWidth="125.0" minWidth="75.0" prefWidth="108.0" text="Value" />
                   </columns>
               </TableView>
-            <Text layoutX="15.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HDD">
+            <Text fx:id="HDDText" layoutX="15.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HDD">
                <font>
                   <Font size="14.0" />
                </font>
@@ -78,7 +78,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="15.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monitor">
+            <Text fx:id="MonitorText" layoutX="15.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monitor">
                <font>
                   <Font size="14.0" />
                </font>
@@ -86,17 +86,30 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Text>
-            <TextArea fx:id="MonitorTextBox" prefHeight="347.0" prefWidth="275.0" />
+            <TextArea fx:id="MonitorTextBox" prefHeight="339.0" prefWidth="275.0" />
             <AnchorPane prefHeight="382.0" prefWidth="275.0">
                <children>
                   <Button layoutX="27.0" layoutY="14.0" mnemonicParsing="false" onAction="#DSreadAll" prefHeight="47.0" prefWidth="88.0" text="DS: Read all" textAlignment="CENTER" wrapText="true" />
                   <Button layoutX="138.0" layoutY="84.0" mnemonicParsing="false" onAction="#CSreadAll" prefHeight="47.0" prefWidth="88.0" text="CS: Read all" textAlignment="CENTER" wrapText="true" />
                   <Button layoutX="27.0" layoutY="84.0" mnemonicParsing="false" onAction="#CSreadOne" prefHeight="47.0" prefWidth="88.0" text="CS: Read line" textAlignment="CENTER" wrapText="true" />
                   <Button layoutX="138.0" layoutY="14.0" mnemonicParsing="false" onAction="#DSreadOne" prefHeight="47.0" prefWidth="90.0" text="DS: Read line" textAlignment="CENTER" wrapText="true" />
-                  <Button layoutX="173.0" layoutY="200.0" mnemonicParsing="false" onAction="#ExecuteCommands" prefHeight="47.0" prefWidth="88.0" text="Execute commands" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="139.0" layoutY="200.0" mnemonicParsing="false" onAction="#ExecuteCommands" prefHeight="47.0" prefWidth="88.0" text="Execute commands" textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="27.0" layoutY="200.0" mnemonicParsing="false" onAction="#LoadFromFile" prefHeight="47.0" prefWidth="88.0" text="Load from file" textAlignment="CENTER" wrapText="true" />
                </children>
             </AnchorPane>
          </children>
       </VBox>
    </center>
+   <bottom>
+      <AnchorPane prefHeight="103.0" prefWidth="670.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fx:id="KeyboardText" layoutX="31.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Keyboard">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TextArea fx:id="KeyboardInput" layoutX="128.0" layoutY="-50.0" prefHeight="103.0" prefWidth="542.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>

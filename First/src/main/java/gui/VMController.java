@@ -179,8 +179,10 @@ public class VMController implements Initializable {
             //Parse string
             commandHandler.parseCommandsFromString(new String(fileBytes));
 
-        } catch (Exception e){
-            JFXUtillities.showAlert("Bad file", "File not selected or wrong file selected", Alert.AlertType.WARNING);
+        }catch (StringIndexOutOfBoundsException e){
+            JFXUtillities.showAlert("Bad file", "File is in wrong format", Alert.AlertType.WARNING);
+        }catch (Exception e){
+            JFXUtillities.showAlert("404", "File not selected", Alert.AlertType.WARNING);
         }
     }
 

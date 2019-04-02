@@ -265,7 +265,7 @@ public class CommandHandler {
     public void parseCommandsFromString(String command) {
         //Parse data segment
         int dsBeginning = command.indexOf('{');
-        int dsEnding = command.indexOf('}');
+        int dsEnding = command.indexOf('}') + 1;
         String dataSegment = command.substring(dsBeginning, dsEnding);
 
         //Get the remaining string from ds
@@ -274,6 +274,11 @@ public class CommandHandler {
         int csEnding = command.indexOf('}');
 
         String codeSegment = command.substring(csBeginning, csEnding);
+
+        //Parse commands
+
+
+
 
     }
 }

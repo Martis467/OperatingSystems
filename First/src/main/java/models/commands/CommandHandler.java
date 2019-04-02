@@ -73,22 +73,15 @@ public class CommandHandler {
     }
 
     /**
-     * Adds commands to CS for IC jumps
+     * Adds commands to memory for IC jumps
      * @param commands
      */
     public void AddCommandsToMemory(String[] commands) {
         CPU cpu = CPU.getInstance();
-        int CS = cpu.vmSegmentSize();
 
         //To iterate with ease turn this array into an arraylist
         ArrayList<String> commandArrayList = new ArrayList<>(Arrays.asList(commands));
-
-        for (int i = 0; i < commandArrayList.size(); i++){
-            Command parsedCommand = Command.getCommand(commandArrayList.get(i));
-            String commandValue = parsedCommand.stripCommand(commandArrayList.get(i));
-
-            vMemory.get(CS + i).setValue(parsedCommand.getCode() + commandValue);
-        }
+        FillSegmentCommands(commandArrayList, cpu.vmSegmentSize());
     }
 
     /**
@@ -263,22 +256,56 @@ public class CommandHandler {
     }
 
     public void parseCommandsFromString(String command) {
+        CPU cpu = CPU.getInstance();
+
         //Parse data segment
-        int dsBeginning = command.indexOf('{');
-        int dsEnding = command.indexOf('}') + 1;
+        int dsBeginning = command.indexOf('{') + 1;
+        int dsEnding = command.indexOf('}');
         String dataSegment = command.substring(dsBeginning, dsEnding);
+
+        //Parse data segment commands
+        String[] dataSegmentCommands = dataSegment.split("\r\n");
+        ArrayList<String> dsc = new ArrayList<>(Arrays.asList(dataSegmentCommands));
 
         //Get the remaining string from ds
         command = command.substring(dsEnding);
-        int csBeginning = command.indexOf('{');
-        int csEnding = command.indexOf('}');
 
-        String codeSegment = command.substring(csBeginning, csEnding);
+        //Parse code segment
+        int csBeginning = command.indexOf('{') +1;
+        String codeSegment = command.substring(csBeginning);
+
+        //Parse code segment commands
+        String[] codeSegmentCommands = codeSegment.split("\r\n");
+        ArrayList<String> csc = new ArrayList<>(Arrays.asList(codeSegmentCommands));
 
         //Parse commands
+        FillSegmentCommands(dsc, 0);
+        FillSegmentCommands(csc, cpu.vmSegmentSize());
+    }
 
+    /**
+     * Fill commands to segment
+     * @param commandArrayList command string array list
+     * @param index starting place to write commands, for e.x if we want to start writing to CS, we pass 112(Beginning of CS)
+     */
+    private void FillSegmentCommands(ArrayList<String> commandArrayList, int index) {
 
+        int memoryBeginning = 0;
 
+        //This has to be done because DS 0000 address has always a value pre-written
+        if (index == 0)
+            memoryBeginning++;
 
+        for (int i = memoryBeginning; i < commandArrayList.size(); i++){
+            String cleanCommand = commandArrayList.get(i).trim();
+
+            if (!cleanCommand.matches("^[a-zA-Z0-9]+$"))
+                continue;
+
+            Command parsedCommand = Command.getCommand(cleanCommand);
+            String commandValue = parsedCommand.stripCommand(cleanCommand);
+
+            vMemory.get(index + i).setValue(parsedCommand.getCode() + commandValue);
+        }
     }
 }

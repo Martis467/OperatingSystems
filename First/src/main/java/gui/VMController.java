@@ -182,6 +182,7 @@ public class VMController implements Initializable {
         }catch (StringIndexOutOfBoundsException e){
             JFXUtillities.showAlert("Bad file", "File is in wrong format", Alert.AlertType.WARNING);
         }catch (Exception e){
+            e.printStackTrace();
             JFXUtillities.showAlert("404", "File not selected", Alert.AlertType.WARNING);
         }
     }

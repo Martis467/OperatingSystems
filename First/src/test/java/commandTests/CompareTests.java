@@ -65,8 +65,8 @@ MUL
 
         ComparisonCommand.Compare(vRam);
 
-        // 20 > 10
-        Assert.assertEquals(1, vRam.get(cpu.SP()).getValueShort());
+        // 20 < 10
+        Assert.assertEquals(2, vRam.get(cpu.SP()).getValueShort());
     }
 
     @Test
@@ -90,7 +90,7 @@ MUL
         ComparisonCommand.Compare(vRam);
 
         // 20 > 10
-        Assert.assertEquals(2, vRam.get(cpu.SP()).getValueShort());
+        Assert.assertEquals(0, vRam.get(cpu.SP()).getValueShort());
     }
 
     @Test
@@ -98,9 +98,9 @@ MUL
         initValues();
         /*
          * Compare, increase SP value and add the result to [SP-1]:
-         * if [SP + 1] > [SP] = 1
-         * if [SP + 1] < [SP] = 2
-         * else 0
+         * if [SP + 1] < [SP] = 0
+         * if [SP +1] == [SP] = 1
+         * if [SP + 1] > [SP] = 2
          */
         ObservableList<WordFX> vRam = TestingUtilities.getVirtualMachineMockUp(vmSize.getVmSize());
 
@@ -112,7 +112,7 @@ MUL
 
         ComparisonCommand.Compare(vRam);
 
-        // 20 > 10
-        Assert.assertEquals(0, vRam.get(cpu.SP()).getValueShort());
+        // 10 == 10
+        Assert.assertEquals(1, vRam.get(cpu.SP()).getValueShort());
     }
 }

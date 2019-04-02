@@ -28,15 +28,16 @@ public class ComparisonCommand {
 
         /*
          * Compare, increase SP value and add the result to [SP-1]:
-         * if [SP + 1] > [SP] = 1
-         * if [SP + 1] < [SP] = 2
-         * else 0
+         * if [SP + 1] < [SP] = 0
+         * if [SP +1] == [SP] = 1
+         * if [SP + 1] > [SP] = 2
          */
 
         short result = 0;
 
-        if( value2 > value1) result = 1;
-        if( value2 < value1) result = 2;
+        if( value2 < value1) result = 0;
+        if( value2 == value1) result = 1;
+        if( value2 > value1) result = 2;
 
         //increase SP and put the new value
         memory.get(SP - 1).setValue(result);

@@ -80,15 +80,11 @@ public enum Command {
                 .filter(com -> command.contains(com.toString())).findFirst();
     }
 
-    public static String getCommandString(String command){
+    public static Command getCommandByHex(String command){
         if (command == null)
             return null;
 
-        Command com = findCommandByHex(command).orElse(null);
-
-        if (com == null) return "";
-
-        return com.toString();
+        return findCommandByHex(command).orElse(null);
     }
 
     private static Optional<Command> findCommandByHex(String command) {

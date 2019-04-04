@@ -105,7 +105,7 @@ public class VMController implements Initializable {
         String[] commands = dataSegment.split("\n");
 
         for (String command : commands) {
-            commandHandler.handleCommand(command);
+            commandHandler.handleCommand(command, false);
         }
         DataTextBox.setText("");
         RefreshRM();
@@ -121,7 +121,7 @@ public class VMController implements Initializable {
         int newLineIndex = dataSegment.indexOf("\n");
         String singleCommand = dataSegment.substring(0, newLineIndex);
 
-        commandHandler.handleCommand(singleCommand);
+        commandHandler.handleCommand(singleCommand, false);
 
         DataTextBox.setText(dataSegment.substring(newLineIndex+1));
         RefreshRM();
@@ -150,14 +150,22 @@ public class VMController implements Initializable {
         int newLineIndex = codeSegment.indexOf("\n");
         String singleCommand = codeSegment.substring(0, newLineIndex);
 
-        commandHandler.handleCommand(singleCommand);
+        commandHandler.handleCommand(singleCommand, false);
 
         CodeTextBox.setText(codeSegment.substring(newLineIndex+1));
         RefreshRM();
     }
 
     public void ExecuteCommands(ActionEvent actionEvent) {
-        commandHandler.executeCommandsFromMemory();
+        int size = commandHandler.getCommandArrayListSize();
+
+        for (int i = 0; i < size; i++){
+            commandHandler.ExecuteCommand();
+        }
+    }
+
+    public void ExecuteSingleCommand(ActionEvent actionEvent) {
+        commandHandler.ExecuteCommand();
     }
 
     public void LoadFromFile(ActionEvent actionEvent) {
@@ -242,78 +250,5 @@ public class VMController implements Initializable {
             String clientValue = clientMemory.get(i).getValue();
             realMemory.get(i).setValue(clientValue);
         }
-    }
-
-    public void ReadFile(ActionEvent actionEvent) {
-        String data = readFileAsString("C:\\Users\\Vytas\\Desktop\\os\\OSbendras\\OperatingSystems\\First\\textFiles\\1.txt");
-        //nuskaitytas visas failas kaip stringas
-        System.out.println(data+ '\n');
-
-        String[] trimmed = data.split("\r\n");
-
-        //keliu reiksmes i datasegment kol sutinku Codesegment
-        //String[] trimmed2 = new String[trimmed.length-1];
-        //System.arraycopy(trimmed,1,trimmed2,0,trimmed.length-1);
-
-        ArrayList<String> temp = new ArrayList<>();
-        ArrayList<String> forWork = new ArrayList<>();
-
-        //sudedu trimed comandas i aray lista kad lengviau dirbti
-        for(String element: trimmed) {
-            temp.add(element);
-        }
-
-        //removes dataseg
-        temp.remove(0);
-
-        //sudeda reiksmes iki codeseg ir trina jau panaudotas
-        for(String element: temp) {
-
-            if(element.equals("CODESEG"))
-               break;
-
-            forWork.add(element);
-            //temp.remove(element);
-        }
-
-        //istrina is temp jau panaudotas komandas
-        temp.removeAll(forWork);
-
-        String[] DataCommand = new String[forWork.size()];
-        DataCommand = forWork.toArray(DataCommand);
-
-        //dataseg komandas atpazista ir sudeda
-        commandHandler.AddCommandsToMemory(DataCommand);
-
-        //istrina codeseg
-        temp.remove(0);
-        forWork.clear();
-
-        //sudeda reiksmes iki STOP
-        for(String element: temp) {
-
-            if(element.equals("STOP"))
-                break;
-
-            forWork.add(element);
-        }
-
-        // i atminti sudeda codeseg komandas
-        String[] DataCommand2 = new String[forWork.size()];
-        DataCommand2 = forWork.toArray(DataCommand2);
-        commandHandler.AddCommandsToMemory(DataCommand2);
-    }
-
-    public static String readFileAsString(String fileName) {
-        try{
-            String data = "";
-            data = new String(Files.readAllBytes(Paths.get(fileName)));
-            return data;
-
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "Reading from file didnt work";
     }
 }

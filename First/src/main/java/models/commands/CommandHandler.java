@@ -13,6 +13,8 @@ import java.util.Arrays;
 
 public class CommandHandler {
 
+    private ArrayList<String> commandArrayList;
+
     private final ArrayList<Command> arithmeticCommands;
     private final ArrayList<Command> comparisonCommands;
     private final ArrayList<Command> stackCommands;
@@ -73,6 +75,12 @@ public class CommandHandler {
         dataLoading.add(Command.DD);
     }
 
+    public int getCommandArrayListSize() {
+        if (commandArrayList == null)
+            return 0;
+
+        return commandArrayList.size();
+    }
     /**
      * Adds commands to memory for IC jumps
      * @param commands
@@ -86,44 +94,21 @@ public class CommandHandler {
     }
 
     /**
-     * Executes commands that are in DS and CS
+     * Executes single command from command arrayList
      */
-    public void executeCommandsFromMemory(){
+    public void ExecuteCommand(){
+        //if the commands are not loaded, do nothing
+        if (commandArrayList == null)
+            return;
+
         CPU cpu = CPU.getInstance();
-        int CS = cpu.vmSegmentSize();
+        int ic = cpu.IC();
 
-        ArrayList<String> commands = new ArrayList<>();
+        //Check if ic is not higher that size if so do nothing
+        if (ic > commandArrayList.size() - 1)
+            return;
 
-        //Get dataseg commands
-        commands.addAll(getCommandsFromMemory(1));
-
-        //Get codeseg commands
-        commands.addAll(getCommandsFromMemory(CS));
-
-        //Print out commands to test
-        commands.forEach(com -> System.out.println(com));
-
-
-    }
-
-    /**
-     * Fetches commands from memory arraylist
-     * @param start - shift the beginning of string
-     * @return
-     */
-    private ArrayList<String> getCommandsFromMemory(int start) {
-        ArrayList<String> commands = new ArrayList<>();
-
-        String command;
-        int i = start;
-
-        // iterate until we find
-        while ( !(command = vMemory.get(i).getValue()).equals("0000")){
-            commands.add(command);
-            i++;
-        }
-
-        return commands;
+        handleCommand(commandArrayList.get(ic), true);
     }
 
     /**
@@ -156,21 +141,31 @@ public class CommandHandler {
         //Parse commands
         FillSegmentCommands(dsc, 0);
         FillSegmentCommands(csc, cpu.vmSegmentSize());
+
+        generateCommandList();
     }
 
     /**
      * Executes given command
      * @param command
+     * @param hex - if this is true command is searched by it's hex code if it's false by it's definition
      */
-    public void handleCommand(String command){
+    public void handleCommand(String command, boolean hex){
         CPU cpu = CPU.getInstance();
-        Command parsedCommand = Command.getCommand(command);
-        command = parsedCommand.stripCommand(command);
+        Command parsedCommand;
+
+        if (hex)
+            parsedCommand = Command.getCommandByHex(command);
+        else
+            parsedCommand = Command.getCommand(command);
 
         if (command == null) {
             //Reset VM
             cpu.SI(Interrupt.TimerZero.toInt());
+            return;
         }
+
+        command = parsedCommand.stripCommand(command);
 
         if (cpu.TI() == 0){
             cpu.SI(Interrupt.TimerZero.toInt());
@@ -310,9 +305,20 @@ public class CommandHandler {
         }
     }
 
-    private String toStringCommand(String commandHexCode) {
-        String com = Command.getCommandString(commandHexCode);
-        return com + " " + commandHexCode.substring(2);
+    /**
+     * Executes commands that are in DS and CS
+     */
+    private void generateCommandList(){
+        CPU cpu = CPU.getInstance();
+        int CS = cpu.vmSegmentSize();
+
+        commandArrayList = new ArrayList<>();
+
+        //Get dataseg commands
+        commandArrayList.addAll(getCommandsFromMemory(1));
+
+        //Get codeseg commands
+        commandArrayList.addAll(getCommandsFromMemory(CS));
     }
 
     /**
@@ -348,5 +354,25 @@ public class CommandHandler {
 
             vMemory.get(segmentStart + i).setValue(newCommand);
         }
+    }
+
+    /**
+     * Fetches commands from memory arraylist
+     * @param start - shift the beginning of string
+     * @return
+     */
+    private ArrayList<String> getCommandsFromMemory(int start) {
+        ArrayList<String> commands = new ArrayList<>();
+
+        String command;
+        int i = start;
+
+        // iterate until we find
+        while ( !(command = vMemory.get(i).getValue()).equals("0000")){
+            commands.add(command);
+            i++;
+        }
+
+        return commands;
     }
 }

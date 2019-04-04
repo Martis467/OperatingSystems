@@ -100,8 +100,8 @@ public class StackCommands {
      */
     public static void PUS(ObservableList<WordFX> memory, String value) {
         CPU cpu = CPU.getInstance();
-
         //Increment instruction counter
+
         cpu.IC(cpu.IC() + 1);
         int SP = cpu.SP();
 

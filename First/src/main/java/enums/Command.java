@@ -89,15 +89,11 @@ public enum Command {
                 .filter(com -> command.contains(com.toString())).findFirst();
     }
 
-    public static String getCommandString(String command){
+    public static Command getCommandByHex(String command){
         if (command == null)
             return null;
 
-        Command com = findCommandByHex(command).orElse(null);
-
-        if (com == null) return "";
-
-        return com.toString();
+        return findCommandByHex(command).orElse(null);
     }
 
     private static Optional<Command> findCommandByHex(String command) {
@@ -114,8 +110,12 @@ public enum Command {
      * Example: PUS XD or PUSXD -> XD
      * @param command
      */
-    public String stripCommand(String command) {
-        command = command.replace(this.toString(), "");
+    public String stripCommand(String command, boolean hex) {
+        if (hex)
+            command = command.replace(this.hexCode, "");
+        else
+            command = command.replace(this.toString(), "");
+
         command = command.trim();
         return command;
     }

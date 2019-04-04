@@ -33,9 +33,9 @@ public class CPU {
         ORG(0);
         IRG(0);
         SI(0);
-        TI(50);
+        TI(3);//50
         SM(0);
-        MODE(0);
+        MODE(1);
     }
 
     public static CPU getInstance(){

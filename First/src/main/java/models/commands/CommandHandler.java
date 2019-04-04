@@ -19,6 +19,8 @@ public class CommandHandler {
     private final ArrayList<Command> controlCommands;
     private final ArrayList<Command> IOCommands;
     private final ArrayList<Command> dataLoading;
+    private final ArrayList<Command> supervisorCommand;
+    static int SPbeforeINTERUPT, ICbeforeINTERUPT;
 
     private ObservableList<WordFX> vMemory;
     private ObservableList<WordFX> supervizorMemory;
@@ -71,6 +73,14 @@ public class CommandHandler {
         dataLoading.add(Command.DW);
         dataLoading.add(Command.DN);
         dataLoading.add(Command.DD);
+
+        supervisorCommand = new ArrayList<>();
+        supervisorCommand.add(Command.SVW0);
+        supervisorCommand.add(Command.SVR0);
+        supervisorCommand.add(Command.MOV0);
+        supervisorCommand.add(Command.SPH);
+        supervisorCommand.add(Command.PAP);
+        supervisorCommand.add(Command.END);
     }
 
     /**
@@ -175,7 +185,15 @@ public class CommandHandler {
         if (cpu.TI() == 0){
             cpu.SI(Interrupt.TimerZero.toInt());
             cpu.MODE(0);
-            cpu.TI(32);
+
+            SPbeforeINTERUPT = cpu.SP();
+            ICbeforeINTERUPT = cpu.IC();
+
+            StackCommands.PUN( vMemory, String.valueOf(cpu.SP())); //push SP
+            StackCommands.PUN( vMemory, String.valueOf(cpu.IC())); //push IC
+            cpu.SP(255);
+            cpu.IC(0);
+            //cpu.TI(32);
         } else //Decrement timer
             cpu.TI(cpu.TI() - 1);
 
@@ -207,6 +225,35 @@ public class CommandHandler {
         if(dataLoading.contains(parsedCommand)){
             handleDataLoading(parsedCommand, command);
             return;
+        }
+
+        if(supervisorCommand.contains(parsedCommand)) {
+            handleSupervisorCommands(parsedCommand,command);
+            return;
+        }
+    }
+
+    private void handleSupervisorCommands(Command parsedCommand, String command) {
+        switch (parsedCommand) {
+            case SVR0:
+                //SupervizorCommands.
+                break;
+            case SPH:
+                //veikia!
+                SupervizorCommands.SPH(supervizorMemory, command);
+                break;
+            case PAP: //veikia
+                SupervizorCommands.PAP(supervizorMemory, command);
+                break;
+            case SVW0:
+
+                break;
+            case END:
+
+                break;
+            case MOV0:
+                SupervizorCommands.MOV0(command);
+                break;
         }
     }
 

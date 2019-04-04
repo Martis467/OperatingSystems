@@ -38,19 +38,52 @@ public class SupervizorMemory {
             memory.add(new WordFX(i, 0));
         }
 
+        /*
         // 12 interuptu kiekvienam po 16 zodziu
         // paskutinis adresas isskirtas interuptas db
         for(int interupt = 1; interupt <13; interupt++) { //0011 *x; 0011*x + 0010
             for(int i = 17*interupt; i < 17*interupt+16; i++) {
-                memory.add(new WordFX(i, 0));
+                if(interupt==12) {
+                    SI12(memory);
+                    break;
+                }
+                else
+                    memory.add(new WordFX(i, 0));
             }
+        }*/
+
+        for(int i = 17; i < 204; i++) {
+            memory.add(new WordFX(i, 0));
         }
+
+        SI12(memory);
 
         // stackui iskirta 36 zodziai
         for(int i = 220; i < 256; i++) {
-            memory.add(new WordFX(i,1));
+            memory.add(new WordFX(i,0));
         }
 
+
+    }
+
+    private static void SI12(ObservableList<WordFX> memory) {
+
+        /* senas, bet dabar supushinam vm'e.
+        memory.add(new WordFX(204, "B33")); //push sp
+        memory.add(new WordFX(205, "B31")); //push IC
+        memory.add(new WordFX(206, "4732")); // MOV TI = 50       //MOV komanda 7 registras(TI) reiksme = 50(16hex)
+        memory.add(new WordFX(207, "B41")); //pop IC
+        memory.add(new WordFX(208, "B43")); //pop SP
+        memory.add(new WordFX(209, "FFFF")); //STOP
+        for(int i = 210; i < 220; i++) {
+            memory.add(new WordFX(i, 0));
+        }
+        */
+        memory.add(new WordFX(204, "4732")); // MOV TI = 50
+        memory.add(new WordFX(205, "FFFF")); //STOP
+        for(int i = 206; i < 220; i++) {
+            memory.add(new WordFX(i, 0));
+        }
 
     }
 
@@ -80,8 +113,7 @@ public class SupervizorMemory {
     private static void SI3() {
     }
 
-    private static void SI2() {
-    }
+
 
     public static void SI1() {
         CPU cpu = CPU.getInstance();

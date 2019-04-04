@@ -28,7 +28,7 @@ public enum Command {
     JE("F1", 4),
     JL("F2", 4),
     JG("F3", 4),
-    STOP("FFFF", 4),
+    STOP("FFFE", 4),
 
     // I/O
     PRTS("50", 4),
@@ -46,12 +46,21 @@ public enum Command {
     DD("DD", 4),
 
     //Interupt commands
-    MOV("CA",4),
+    //MOV("CA",4),
     SVW("CB", 4),
     SVR("CC", 4),
     PUSH("CD", 4),
     TRNF("CF", 4 ),
-    REGW("D0", 4);
+    REGW("D0", 4),
+
+    //Supervizor commands
+    SVW0("B0",4),
+    SVR0("B1",4),
+    END("FFFF",4),
+    MOV0("4",4), //MOV(register(1-10) , value (0-256)) pvz 42FF
+    SPH("B3",4),
+    PAP("B4",4);
+
 
 
     private final String hexCode;

@@ -12,7 +12,7 @@ public enum Interrupt {
     STOP(9),
     LC(10),
     UC(11),
-    TimerZero(12);
+    TimerZero(12); // adresu CC pradeda vykdyti
 
     private final int val;
 

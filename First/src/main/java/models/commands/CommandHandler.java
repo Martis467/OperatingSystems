@@ -1,5 +1,6 @@
 package models.commands;
 
+import com.google.common.base.Strings;
 import enums.Command;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextArea;
@@ -90,25 +91,36 @@ public class CommandHandler {
     public void executeCommandsFromMemory(){
         CPU cpu = CPU.getInstance();
         int CS = cpu.vmSegmentSize();
-        int csSize = 2*CS - 1;
 
         ArrayList<String> commands = new ArrayList<>();
+
+        //Get dataseg commands
+        commands.addAll(getCommandsFromMemory(1));
+
+        //Get codeseg commands
+        commands.addAll(getCommandsFromMemory(CS));
+
+        //Print out commands to test
+        commands.forEach(com -> System.out.println(com));
+
+
     }
 
     /**
      * Fetches commands from memory arraylist
-     * @param shift - shift the beginning of string
+     * @param start - shift the beginning of string
      * @return
      */
-    private ArrayList<String> getCommandsFromMemory(int shift) {
+    private ArrayList<String> getCommandsFromMemory(int start) {
         ArrayList<String> commands = new ArrayList<>();
 
         String command;
-        int i = shift;
+        int i = start;
 
         // iterate until we find
-        while ( !(command = vMemory.get(shift).getValue()).equals("0000")){
-            //
+        while ( !(command = vMemory.get(i).getValue()).equals("0000")){
+            commands.add(command);
+            i++;
         }
 
         return commands;
@@ -122,8 +134,8 @@ public class CommandHandler {
         CPU cpu = CPU.getInstance();
 
         //Parse data segment
-        int dsBeginning = command.indexOf('{') + 1;
-        int dsEnding = command.indexOf('}');
+        int dsBeginning = 0;
+        int dsEnding = command.indexOf("CODESEG");
         String dataSegment = command.substring(dsBeginning, dsEnding);
 
         //Parse data segment commands
@@ -134,7 +146,7 @@ public class CommandHandler {
         command = command.substring(dsEnding);
 
         //Parse code segment
-        int csBeginning = command.indexOf('{') +1;
+        int csBeginning = command.indexOf("CODESEG");
         String codeSegment = command.substring(csBeginning);
 
         //Parse code segment commands
@@ -310,13 +322,17 @@ public class CommandHandler {
      */
     private void FillSegmentCommands(ArrayList<String> commandArrayList, int index) {
 
-        int memoryBeginning = 0;
+        //since the first element is DATASEG OR CODESEG
+        //we have to remove it
+        commandArrayList.remove(0);
+
+        int segmentStart = index;
 
         //This has to be done because DS 0000 address has always a value pre-written
         if (index == 0)
-            memoryBeginning++;
+            segmentStart++;
 
-        for (int i = memoryBeginning; i < commandArrayList.size(); i++){
+        for (int i = 0; i < commandArrayList.size(); i++){
             String cleanCommand = commandArrayList.get(i).trim();
 
             if (!cleanCommand.matches("^[a-zA-Z0-9]+$"))
@@ -325,7 +341,12 @@ public class CommandHandler {
             Command parsedCommand = Command.getCommand(cleanCommand);
             String commandValue = parsedCommand.stripCommand(cleanCommand);
 
-            vMemory.get(index + i).setValue(parsedCommand.getCode() + commandValue);
+            String newCommand = parsedCommand.getCode() + commandValue;
+
+            //Add 0 if the string is to short
+            newCommand = Strings.padEnd(newCommand, 4, '0');
+
+            vMemory.get(segmentStart + i).setValue(newCommand);
         }
     }
 }

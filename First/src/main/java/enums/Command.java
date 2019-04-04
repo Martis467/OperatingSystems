@@ -101,8 +101,12 @@ public enum Command {
      * Example: PUS XD or PUSXD -> XD
      * @param command
      */
-    public String stripCommand(String command) {
-        command = command.replace(this.toString(), "");
+    public String stripCommand(String command, boolean hex) {
+        if (hex)
+            command = command.replace(this.hexCode, "");
+        else
+            command = command.replace(this.toString(), "");
+
         command = command.trim();
         return command;
     }

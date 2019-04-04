@@ -165,7 +165,7 @@ public class CommandHandler {
             return;
         }
 
-        command = parsedCommand.stripCommand(command);
+        command = parsedCommand.stripCommand(command, hex);
 
         if (cpu.TI() == 0){
             cpu.SI(Interrupt.TimerZero.toInt());
@@ -345,7 +345,7 @@ public class CommandHandler {
                 continue;
 
             Command parsedCommand = Command.getCommand(cleanCommand);
-            String commandValue = parsedCommand.stripCommand(cleanCommand);
+            String commandValue = parsedCommand.stripCommand(cleanCommand, false);
 
             String newCommand = parsedCommand.getCode() + commandValue;
 

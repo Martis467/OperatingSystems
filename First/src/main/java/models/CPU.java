@@ -33,7 +33,7 @@ public class CPU {
         ORG(0);
         IRG(0);
         SI(0);
-        TI(3);//50
+        TI(50);//50
         SM(0);
         MODE(1);
     }

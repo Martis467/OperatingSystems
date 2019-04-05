@@ -22,7 +22,6 @@ public class CommandHandler {
     private final ArrayList<Command> IOCommands;
     private final ArrayList<Command> dataLoading;
     private final ArrayList<Command> supervisorCommand;
-    static int SPbeforeINTERUPT, ICbeforeINTERUPT;
 
     private ObservableList<WordFX> vMemory;
     private ObservableList<WordFX> supervizorMemory;
@@ -184,8 +183,11 @@ public class CommandHandler {
             SPbeforeINTERUPT = cpu.SP();
             ICbeforeINTERUPT = cpu.IC();
 
-            StackCommands.PUN( vMemory, String.valueOf(cpu.SP())); //push SP
-            StackCommands.PUN( vMemory, String.valueOf(cpu.IC())); //push IC
+            //StackCommands.PUN( vMemory, String.valueOf(cpu.SP())); //push SP
+            //StackCommands.PUN( vMemory, String.valueOf(cpu.IC())); //push IC
+
+
+
             cpu.SP(255);
             cpu.IC(0);
             //cpu.TI(32);

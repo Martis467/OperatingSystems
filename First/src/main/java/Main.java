@@ -2,6 +2,15 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import utillities.JFXLoader;
 
+/**
+ * OS project
+ *
+ * @author Martynas Jakimcikas
+ * @author Vytautas Matas Martusevicius
+ * @version 1.0 2019-04-01
+ *
+ */
+
 public class Main extends Application {
 
     @Override
